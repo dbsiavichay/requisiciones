@@ -1,0 +1,9 @@
+*.[oa]
+*~
+*.pyc
+media/
+ui_components/migrations/
+inventario/migrations/
+autenticacion/migrations/
+requisiciones/migrations/
+notificaciones/migrations/
