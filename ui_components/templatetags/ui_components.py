@@ -8,7 +8,7 @@ register = template.Library()
 @register.tag(name='table')
 def table(parser, token):
 
-    bits = token.split_contents()
+    bits = token.split_contents()    
 
     nodelist = parser.parse(('theaders', 'tfields', 'endtable',)) 
     token = parser.next_token()    
@@ -24,7 +24,7 @@ def table(parser, token):
         parser.parse(('endtable',))        
         parser.delete_first_token()
 
-    sequence = parser.compile_filter(bits[3]) 
+    sequence = parser.compile_filter(bits[2]) 
 
     return TableNode(sequence, headers, fields)
 
@@ -43,7 +43,8 @@ class TableNode(template.Node):
         context_dict = context.push()
         context_dict.update({
             'data':get_data(object_list, self.fields),
-            'headers':[header[1:-1] for header in self.headers]
+            'headers':[header[1:-1] for header in self.headers],
+            'fields': self.fields,
         })
 
         template_directories = [
@@ -73,8 +74,9 @@ def get_attribute(instance, field):
 
 def get_data(object_list, fields):
     data = []   
-    for obj in object_list:     
-        line = [get_attribute(obj, field) for field in fields]
+    for obj in object_list:        
+        line = {field: get_attribute(obj, field) for field in fields}
+        line.update({'pk': obj.id, 'id': obj.id,})
         data.append(line)
     return data
 
@@ -91,3 +93,9 @@ def datepicker(field):
     return {
         'field':field,        
     }
+
+
+#Filters
+@register.filter(name='hash')
+def hash(h, key):     
+    return h[key]
