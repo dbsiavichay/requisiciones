@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load ui_components %}
+
+{% block content %}
+<h3><i class="fa fa-angle-right"></i> Productos</h3>
+
+<div class="row mt">
+	<div class="col-lg-12">
+	    <div class="content-panel">
+	    	<!-- Encabezado -->
+		    <div class="content-panel-header">
+		        <h4>
+		          	<i class="fa fa-angle-right"></i>
+		          	Listado
+		        </h4>
+		        <a href="{% url 'crear_producto' %}" class="btn btn-sm btn-primary pull-right col-xs-2">
+		          	<i class="fa fa-plus-circle"></i> Agregar
+		        </a>
+		    </div>
+		    <!-- Fin de encabezado -->
+
+	    	{% table for object_list %}                
+                {% theaders 'Nombre' 'Categoría' %}
+                {% tfields object categoria %}
+            {% endtable %}	      
+	    </div>
+	</div>
+</div>
+{% endblock%}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>
+    <i class="fa fa-angle-right"></i> Productos  
+</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="content-panel">
+            <div class="content-panel-header">
+                <h4>
+                  <i class="fa fa-angle-right"></i>
+                  Datos de producto
+                </h4>
+                {% if object %}                
+                <button type="submit" form="delete" class="btn btn-sm btn-danger pull-right">
+                    <i class="fa fa-trash"></i>
+                </button>                
+                                
+                <a href="{% url 'crear_producto' %}" class="btn btn-sm btn-primary pull-right">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <form id="delete" action="{% url 'eliminar_producto' object.id %}" method="POST">
+                    {% csrf_token %}                
+                </form>
+                {% endif %}
+            </div>
+            {% include 'inventario/partials/form_producto.html' with form=form %}
+
+        </div>
+    </div>
+</div>
+{% endblock%}

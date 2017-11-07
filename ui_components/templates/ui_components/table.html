@@ -20,7 +20,7 @@
             <td>{{ dict|hash:field }}</td>
             {% endfor %}
             <td class="col-xs-1">
-                <a href="{% url 'editar_categoria' dict|hash:'id' %}" class="btn btn-xs btn-default">
+                <a href="{{ dict|hash:'url' }}" class="btn btn-xs btn-default">
                     <span class="fa fa-pencil"></span>
                 </a>              
             </td>

@@ -24,6 +24,9 @@
                     <li {% if 'categoria' in request.path %} class="active" {% endif %}>
                         <a href="{% url 'categorias' %}">Categorías</a>
                     </li>
+                    <li {% if 'producto' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'productos' %}">Productos</a>
+                    </li>
                 </ul>
             </li>            
 

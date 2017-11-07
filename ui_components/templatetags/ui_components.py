@@ -76,7 +76,7 @@ def get_data(object_list, fields):
     data = []   
     for obj in object_list:        
         line = {field: get_attribute(obj, field) for field in fields}
-        line.update({'pk': obj.id, 'id': obj.id,})
+        line.update({'pk': obj.id, 'id': obj.id, 'url': obj.get_absolute_url(),})
         data.append(line)
     return data
 

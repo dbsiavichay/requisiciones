@@ -22,3 +22,20 @@ class CategoriaUpdateView(UpdateView):
 class CategoriaDeleteView(DeleteView):
 	model = Categoria
 	success_url = reverse_lazy('categorias')
+
+class ProductoListView(ListView):
+	model = Producto
+
+class ProductoCreateView(CreateView):
+	model = Producto
+	fields = '__all__'
+	success_url = reverse_lazy('productos')
+
+class ProductoUpdateView(UpdateView):
+	model = Producto
+	fields = '__all__'
+	success_url = reverse_lazy('productos')
+
+class ProductoDeleteView(DeleteView):
+	model = Producto
+	success_url = reverse_lazy('productos')
