@@ -13,6 +13,18 @@
                     <i class="fa fa-home"></i>
                     <span>Home</span>
                 </a>
+            </li>
+
+            <li class="sub-menu">
+                <a {% if 'inventario' in request.path %} class="active" {% endif %} href="#" >
+                    <i class="fa fa-user"></i>
+                    <span>Inventario</span>
+                </a>
+                <ul class="sub">
+                    <li {% if 'categorias' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'categorias' %}">Categorías</a>
+                    </li>
+                </ul>
             </li>            
 
 
