@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        {% load staticfiles %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+        <title>Sistema de Requisiciones</title>
+
+        {% include 'base/css.html' %}
+
+        {% block css %}
+        {% endblock %}
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <section id="container" >
+            {% include 'base/header.html' %}
+            {% include 'base/sidebar.html' %}
+            
+            <!--main content start-->
+            <section id="main-content">
+                <section class="wrapper">
+                    {% block content %}{% endblock %}
+        		</section>
+            </section>
+            <!--main content end-->
+        </section>
+
+        {% include 'base/js.html' %}
+        {% block js %}
+        {% endblock %}
+    </body>
+</html>

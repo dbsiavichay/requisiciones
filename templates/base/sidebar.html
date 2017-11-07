@@ -1,0 +1,39 @@
+{% load static %}
+<!--sidebar start-->
+<aside>
+    <div id="sidebar"  class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+        	<p class="centered">
+                <a href="profile.html"><img src="{% static 'assets/img/default-user.png' %}" class="img-circle" width="60"></a>
+            </p>
+        	<h5 class="centered">{{ user.username }}</h5>            
+            <li class="mt">            
+                <a {% if request.path == '/' %} class="active" {% endif %} href="/">
+                    <i class="fa fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>            
+
+
+            <li class="sub-menu">
+                <a {% if 'password' in request.path %} class="active" {% endif %} href="#" >
+                    <i class="fa fa-user"></i>
+                    <span>Cuenta</span>
+                </a>
+                <ul class="sub">
+                    <li {% if 'password' in request.path %} class="active" {% endif %}><a href="/change-password/">Cambiar contraseña</a></li>
+                </ul>
+            </li>
+
+            <li class="sub-menu">
+                <a href="/logout/" >
+                    <i class="fa fa-sign-out"></i>
+                    <span>Salir</span>
+                </a>              
+            </li>
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
+<!--sidebar end-->
