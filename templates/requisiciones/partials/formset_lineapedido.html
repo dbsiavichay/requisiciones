@@ -1,0 +1,28 @@
+{% load widget_tweaks %}
+<table class="table table-striped">
+    <thead>
+        <tr>                        
+            <th>Cantidad</th>                        
+            <th>Producto</th>
+            <th>Eliminar?</th>                        
+        </tr>
+    </thead>
+    <tbody>
+        {{ formset.management_form }}
+        {% for form in formset %}
+        {{ form.id }}                                
+        <tr class="inline {{ formset.prefix }}">            
+            <td class="col-xs-2">
+                {{ form.cantidad|add_class:"form-control" }}{{ form.cantidad.errors }}
+            </td>
+            <td>
+                {{ form.producto|add_class:"form-control" }}{{ form.producto.errors }}
+            </td>            
+            <td class="col-xs-1">                    
+            {{ form.DELETE }}
+            </td>                                    
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+

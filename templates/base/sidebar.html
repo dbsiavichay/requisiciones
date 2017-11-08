@@ -30,6 +30,18 @@
                 </ul>
             </li>            
 
+            <li class="sub-menu">
+                <a {% if 'requisiciones' in request.path %} class="active" {% endif %} href="#" >
+                    <i class="fa fa-user"></i>
+                    <span>Requisiciones</span>
+                </a>
+                <ul class="sub">                    
+                    <li {% if 'pedido' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'pedidos' %}">Mis pedidos</a>
+                    </li>                    
+                </ul>
+            </li> 
+
 
             <li class="sub-menu">
                 <a {% if 'password' in request.path %} class="active" {% endif %} href="#" >

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h3>
+    <i class="fa fa-angle-right"></i> Pedidos
+</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="content-panel">
+            <div class="content-panel-header">
+                <h4>
+                  <i class="fa fa-angle-right"></i>
+                  Lineas de pedido
+                </h4>
+                {% if object %}                
+                <button type="submit" form="delete" class="btn btn-sm btn-danger pull-right">
+                    <i class="fa fa-trash"></i>
+                </button>                
+                                
+                <a href="{% url 'crear_categoria' %}" class="btn btn-sm btn-primary pull-right">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <form id="delete" action="{% url 'eliminar_categoria' object.id %}" method="POST">
+                    {% csrf_token %}                
+                </form>
+                {% endif %}
+            </div>
+            {% include 'requisiciones/partials/form_pedido.html' with formset=formset %}
+
+        </div>
+    </div>
+</div>
+{% endblock%}
+
+{% block js %}
+<script type="text/javascript" src="{% static 'plugins/jquery/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $(function() {
+        $(".inline.{{ formset.prefix }}").formset({
+            prefix: "{{ formset.prefix }}",
+            addText: '<span class="fa fa-plus"></span> Agregar linea',
+            deleteText: '<span class="fa fa-close"></span>',           
+        });            
+    })
+</script>
+<script type="text/javascript">
+    $('#generar').on('click', function (e) {
+        e.preventDefault();
+        $('<input>')
+            .attr('type', 'hidden')
+            .attr('name', 'estado').val('2')
+            .appendTo($('form'));
+
+        $('form').submit();
+    });
+</script>
+{% endblock %}

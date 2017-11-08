@@ -1,0 +1,12 @@
+<form class="form-horizontal" action="" method="POST" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}           
+    {% include 'requisiciones/partials/formset_lineapedido.html' with formset=formset %}
+    <button type="submit" class="btn btn-default">
+      <i class="fa fa-check"></i> Solo guardar
+    </button>
+    <a id="generar" href="#" class="btn btn-primary">
+      <i class="fa fa-check"></i> Generar pedido
+    </a>    
+    <a href="{% url 'pedidos' %}" class="btn btn-link">Regresar</button>
+</form>
+
