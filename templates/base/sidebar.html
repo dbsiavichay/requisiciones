@@ -7,7 +7,7 @@
         	<p class="centered">
                 <a href="profile.html"><img src="{% static 'assets/img/default-user.png' %}" class="img-circle" width="60"></a>
             </p>
-        	<h5 class="centered">{{ user.username }}</h5>            
+        	<h5 class="centered">{{ user.get_full_name }}</h5>            
             <li class="mt">            
                 <a {% if request.path == '/' %} class="active" {% endif %} href="/">
                     <i class="fa fa-home"></i>
@@ -24,7 +24,7 @@
 
             <li class="sub-menu">
                 <a {% if 'inventario' in request.path %} class="active" {% endif %} href="#" >
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-building"></i>
                     <span>Inventario</span>
                 </a>
                 <ul class="sub">
@@ -39,7 +39,7 @@
 
             <li class="sub-menu">
                 <a {% if 'requisiciones' in request.path %} class="active" {% endif %} href="#" >
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-heart"></i>
                     <span>Requisiciones</span>
                 </a>
                 <ul class="sub">                    
