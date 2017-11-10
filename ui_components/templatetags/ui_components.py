@@ -62,12 +62,11 @@ def get_attribute(instance, field):
     if len(names) == 0:
         if not name:
             return None        
-
         attr = instance if name == 'object' else getattr(instance, name)        
-        
+        if attr is None:
+            return ''
         if callable(attr):
             return force_text(attr())
-        
         return force_text(attr)
  
     return get_attribute(getattr(instance, name), '.'.join(names))

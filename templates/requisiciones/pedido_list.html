@@ -14,15 +14,15 @@
 		          	Listado
 		        </h4>
 		        <a href="{% url 'crear_pedido' %}" class="btn btn-sm btn-primary pull-right col-xs-2">
-		          	<i class="fa fa-plus-circle"></i> Agregar
+		          	<i class="fa fa-plus-circle"></i> Crear
 		        </a>
 		    </div>
 		    <!-- Fin de encabezado -->
 
 	    	{% table for object_list %}                
-                {% theaders 'Usuario' 'Fecha' 'Estado' 'Observación' %}
-                {% tfields usuario.get_full_name fecha estado observacion %}
-            {% endtable %}	      
+                {% theaders 'Codigo' 'Fecha' 'Estado' 'Observación' %}
+                {% tfields id fecha get_estado observacion %}
+            {% endtable %}
 	    </div>
 	</div>
 </div>

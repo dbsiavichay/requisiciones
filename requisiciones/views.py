@@ -41,7 +41,7 @@ class PedidoCreateView(CreateView):
 
 class PedidoUpdateView(UpdateView):
 	model = Pedido
-	fields = '__all__'
+	form_class = PedidoForm
 	success_url = reverse_lazy('pedidos')
 
 	def get_context_data(self, **kwargs):
@@ -53,9 +53,8 @@ class PedidoUpdateView(UpdateView):
 	def form_valid(self, form):
 		formset = self.get_lineapedido_formset()
 		
-		if formset.is_valid():
-			self.object = self.get_object()
-			formset.instance = self.object
+		if formset.is_valid():						
+			form.save()
 			formset.save()			
 			return redirect(self.get_success_url())
 		else:
@@ -66,3 +65,29 @@ class PedidoUpdateView(UpdateView):
 		post_data = self.request.POST if self.request.method == 'POST' else None
 		formset = LineaPedidoInlineFormSet(post_data, instance=self.object)
 		return formset
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.estado != 1:
+			return redirect('ver_pedido', self.object.id)
+		return super(PedidoUpdateView, self).get(request, *args, **kwargs)
+
+class CancelarPedidoUpdateView(UpdateView):
+	model = Pedido
+	fields = ()
+	success_url = reverse_lazy('pedidos')
+
+	def post(self, request, *args, **kwargs):
+		return redirect(self.get_success_url())
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.estado > 3:
+			return redirect('ver_pedido', self.object.id)
+			
+		self.object.estado = 7
+		self.object.save()
+		return redirect('ver_pedido', self.object.id)
+
+class PedidoDetailView(DetailView):
+	model = Pedido

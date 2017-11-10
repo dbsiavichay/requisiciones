@@ -14,18 +14,17 @@
                   Lineas de pedido
                 </h4>
                 {% if object %}                
-                <button type="submit" form="delete" class="btn btn-sm btn-danger pull-right">
-                    <i class="fa fa-trash"></i>
-                </button>                
-                                
-                <a href="{% url 'crear_categoria' %}" class="btn btn-sm btn-primary pull-right">
-                    <i class="fa fa-plus"></i>
+                {% if object.estado < 4 %}                
+                <a href="{% url 'cancelar_pedido' object.id %}" class="btn btn-sm btn-danger pull-right">
+                    <i class="fa fa-close"></i> Cancelar pedido
                 </a>
-                <form id="delete" action="{% url 'eliminar_categoria' object.id %}" method="POST">
-                    {% csrf_token %}                
-                </form>
                 {% endif %}
-            </div>
+                       
+                <a href="{% url 'crear_pedido' %}" class="btn btn-sm btn-primary pull-right">
+                    <i class="fa fa-plus"></i> Crear
+                </a>
+                {% endif %}
+            </div>            
             {% include 'requisiciones/partials/form_pedido.html' with formset=formset %}
 
         </div>
@@ -45,7 +44,7 @@
     })
 </script>
 <script type="text/javascript">
-    $('#generar').on('click', function (e) {
+    $('#generar').on('click', function (e) {        
         e.preventDefault();
         $('<input>')
             .attr('type', 'hidden')
