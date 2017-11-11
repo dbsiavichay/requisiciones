@@ -1,0 +1,21 @@
+{% load widget_tweaks %}	
+<form class="form-login" action="" method="POST" novalidate>
+	{% csrf_token %}
+    <h2 class="form-login-heading">Inicia sesión</h2>
+    <div class="login-wrap">    	
+    	{{ form.username|add_class:"form-control"|attr:"placeholder:Número de cédula" }}
+    	{% for error in form.username.errors %}
+		    <span class="help-block">{{ error }}</span>
+		{% endfor %}
+        <br>
+        {{ form.password|add_class:"form-control"|attr:"placeholder:Contraseña" }}
+        {% for error in form.password.errors %}
+		    <span class="help-block">{{ error }}</span>
+		{% endfor %}        
+        <input type="hidden" name="next" value="{{ next }}"/>
+        <hr>
+        <button class="btn btn-theme btn-block" type="submit">
+        	<i class="fa fa-lock"></i> Ingresar
+        </button>        
+    </div>    
+</form>

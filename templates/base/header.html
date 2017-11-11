@@ -5,8 +5,9 @@
 	</div>
 	<!--logo start-->
 	<a href="#" class="logo"><b>REQUISICIONES</b></a>
-	<!--logo end-->
-
+	<!--logo end-->    
+    
+    {% if not user.is_anonymous %}
 	<div class="nav notify-row pull-right">
         <!--  notification start -->
         <ul class="nav top-menu">            
@@ -42,5 +43,6 @@
         </ul>
         <!--  notification end -->
     </div>
+    {% endif %}
 </header>
 <!--header end-->

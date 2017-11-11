@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """config URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -17,9 +18,12 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
 
+admin.site.site_header = 'Administración del Sistema de Requisiciones'
+
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^autenticacion/', include('autenticacion.urls')),
     url(r'^inventario/', include('inventario.urls')),
     url(r'^requisiciones/', include('requisiciones.urls')),
-    url(r'^$', TemplateView.as_view(template_name='base.html')),
+    url(r'^admin/', admin.site.urls),    
+    url(r'^$', TemplateView.as_view(template_name='base.html'), name='home'),
 ]
