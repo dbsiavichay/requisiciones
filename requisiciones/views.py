@@ -10,6 +10,12 @@ from .models import *
 class PedidoListView(ListView):
 	model = Pedido
 
+	def get_queryset(self):
+		queryset = super(PedidoListView, self).get_queryset()
+		if not self.request.user.perfil.gestiona_pedidos:
+			queryset = queryset.filter(usuario=self.request.user)				
+		return queryset
+
 class PedidoCreateView(CreateView):
 	model = Pedido
 	form_class = PedidoForm
@@ -68,6 +74,8 @@ class PedidoUpdateView(UpdateView):
 
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
+		if self.object.usuario != request.user:
+			return redirect('pedidos')
 		if self.object.estado != 1:
 			return redirect('ver_pedido', self.object.id)
 		return super(PedidoUpdateView, self).get(request, *args, **kwargs)
@@ -82,6 +90,8 @@ class CancelarPedidoUpdateView(UpdateView):
 
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
+		if self.object.usuario != request.user and not request.user.perfil.gestiona_pedidos:
+			return redirect('pedidos')
 		if self.object.estado > 3:
 			return redirect('ver_pedido', self.object.id)
 			
@@ -91,3 +101,9 @@ class CancelarPedidoUpdateView(UpdateView):
 
 class PedidoDetailView(DetailView):
 	model = Pedido
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.usuario != request.user and not request.user.perfil.gestiona_pedidos:
+			return redirect('pedidos')
+		return super(PedidoDetailView, self).get(request, *args, **kwargs)

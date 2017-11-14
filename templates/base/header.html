@@ -1,3 +1,4 @@
+{% load static %}
 <!--header start-->
 <header class="header black-bg">
 	<div class="sidebar-toggle-box">
@@ -14,28 +15,42 @@
             <!-- inbox dropdown start-->
             <li id="header_inbox_bar" class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
-                    <i class="fa fa-bell"></i>
-                    <span class="badge bg-theme">1</span>
+                    <i class="fa fa-bell"></i>                    
+                    <span id='notificaciones_count' class="{% if not notificaciones %} hide {% endif %} badge bg-theme">{{ notificaciones_count }}</span>                    
                 </a>
                 <ul class="dropdown-menu extended inbox">
-                    <div class="notify-arrow notify-arrow-green"></div>
+                    <div class="notify-arrow notify-arrow-green"></div>                    
                     <li>
-                        <p class="green">Tienes 1 notificación</p>
+                        <p class="green">
+                        {% if notificaciones %}
+                            Tienes {{ notificaciones_count }} notificaciónes nuevas.
+                        {% else %}
+                            No tienes notificaciones nuevass
+                        {% endif %}
+                        </p>
                     </li>
+                    {% for object in notificaciones %}
                     <li>
-                        <a href="index.html#">
-                            <span class="photo"><img alt="avatar" src="assets/img/ui-zac.jpg"></span>
+                        <a href="{% url 'ver_notificacion' object.id %}">
+                            <span class="photo">
+                                {% if object.remitente.perfil.imagen %}
+                                <img alt="avatar" src="user.perfil.image.url">
+                                {% else %}
+                                <img alt="avatar" src="{% static 'assets/img/default-user.png' %}">
+                                {% endif %}
+                            </span>
                             <span class="subject">
-                            <span class="from">Zac Snider</span>
-                            <span class="time">Just now</span>
+                            <span class="from">{{ object.remitente.get_full_name }}</span>
                             </span>
                             <span class="message">
-                                Hi mate, how is everything?
+                                {{ object.mensaje }}
                             </span>
+                            <em><strong><i class="fa fa-clock-o"></i> {{ object.fecha_creacion|timesince }}</strong></em>
                         </a>
                     </li>
+                    {% endfor %}
                     <li>
-                        <a href="index.html#">See all messages</a>
+                        <a href="{% url 'notificaciones' %}">Ver todas las notificaciones</a>
                     </li>
                 </ul>
             </li>

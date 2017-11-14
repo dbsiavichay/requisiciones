@@ -18,11 +18,13 @@
 		        </a>
 		    </div>
 		    <!-- Fin de encabezado -->
-
-	    	{% table for object_list %}                
-                {% theaders 'Codigo' 'Fecha' 'Estado' 'Observación' %}
-                {% tfields id fecha get_estado observacion %}
-            {% endtable %}
+		    {% ui_table obj in object_list %}		    	
+		    	{{ 'Codigo' }} {{ 'Fecha' }} {{ 'Estado' }} {{ 'Observación' }} {{ 'Detalle' }}
+		    {% body %}
+		    	{{ obj.id }} {{obj.fecha}} {{obj.get_estado}} 
+		    	{{ obj.observacion }}
+		    	{% ui_button obj.get_absolute_url 'xs' 'search' %}
+		    {% endui_table %}	    	
 	    </div>
 	</div>
 </div>

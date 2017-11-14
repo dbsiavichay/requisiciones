@@ -9,14 +9,32 @@
 
 <!--common script for all pages-->
 <script src="{% static 'assets/js/common-scripts.js' %}"></script>
+<!--scripts for notifications-->
+<script src="{% static 'plugins/bootstrap-notify/bootstrap-notify.min.js' %}"></script>
 <script src="{% static 'plugins/socket.io/socket.io.js' %}"></script>
 
 <script type="text/javascript">
 	var socket = io.connect('http://localhost:8002');
 
-	socket.on('message', function (message) {
-		console.log('recibido')
-	});
+	socket.on('data', function () {
+		$.get('/autenticacion/perfil/', function (data) {
+			socket.emit('data', data);			
+		})
+	})
 
-	socket.emit('message', {data:'texto'})
+
+	socket.on('count', function (notificacion) {
+		console.log(notificacion)
+		var $span = $('#notificaciones_count');
+		var count = parseInt($span.text());
+		count += 1;
+		$span.text(count);
+		if ($span.hasClass('hide')) $span.removeClass('hide');
+		$.notify({			
+			message: 'Alguien ha generado un nuevo pedido.' 
+		},{
+			// settings
+			type: 'success'
+		});
+	});		
 </script>

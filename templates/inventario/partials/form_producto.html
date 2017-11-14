@@ -2,8 +2,8 @@
 <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
     
-    {% input form.nombre %}        
-    {% input form.categoria %}
+    {% ui_input form.nombre %}        
+    {% ui_input form.categoria %}
 
     <button type="submit" value="Guardar" class="btn btn-primary">
       <i class="fa fa-check"></i> Guardar

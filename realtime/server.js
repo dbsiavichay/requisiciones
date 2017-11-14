@@ -19,8 +19,10 @@ io.sockets.on('connection', function (socket) {
 		    //socket.broadcast.to('gestionadores').emit('message', {data:data.payload});		    
 		    var notificacion = JSON.parse(data.payload);		    
 		    var receptor = notificacion['receptor_id'];
-		    if (receptor in clientes) 
-		    	clientes[receptor].socket.emit('notificacion', notificacion)		    
+		    if (receptor in clientes) {
+		    	clientes[receptor].socket.emit('count', notificacion)		    
+		    	clientes[receptor].socket.emit('notificacion', notificacion)
+		    }
 		});
 		client.handler=true;			
 	}	

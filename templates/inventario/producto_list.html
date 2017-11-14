@@ -18,11 +18,12 @@
 		        </a>
 		    </div>
 		    <!-- Fin de encabezado -->
-
-	    	{% table for object_list %}                
-                {% theaders 'Nombre' 'Categoría' %}
-                {% tfields object categoria %}
-            {% endtable %}	      
+		    {% ui_table obj in object_list %}		    	
+		    	{{ 'Nombre' }} {{ 'Categoria' }} {{ 'Detalle' }}
+		    {% body %}
+		    	{{ obj.nombre }} {{obj.categoria}} 		    	
+		    	{% ui_button obj.get_absolute_url 'xs' 'pencil' %}
+		    {% endui_table %}	    	
 	    </div>
 	</div>
 </div>

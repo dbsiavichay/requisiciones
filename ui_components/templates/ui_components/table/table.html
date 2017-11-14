@@ -1,0 +1,20 @@
+{% load ui_components %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+        	{% for header in headers %}
+        	<th>{{ header }}</th>
+        	{% endfor %}        	
+        </tr>
+    </thead>
+    <tbody>
+        {% with rows|first as row %}
+            <tr class='hide realtime success'>
+                {{ row|ui_row_cells }}
+            </tr>
+        {% endwith %}        
+        {% for row in rows %}        
+        {{ row }}        
+        {% endfor %}
+    </tbody>
+</table>
