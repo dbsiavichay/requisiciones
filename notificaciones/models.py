@@ -8,6 +8,8 @@ from django.db import models
 @python_2_unicode_compatible
 class Notificacion(models.Model):
 	class Meta:
+		verbose_name='notificación'
+		verbose_name_plural = 'notificaciones'
 		ordering = ['-fecha_creacion',]
 
 	remitente = models.ForeignKey('auth.User', related_name='remitente')

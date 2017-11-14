@@ -7,7 +7,7 @@ class LineaPedidoInline(admin.TabularInline):
     model = LineaPedido    
 
 class PedidoAdmin(admin.ModelAdmin):
-	list_display = ('get_usuario', 'fecha', 'estado', 'observacion' )
+	list_display = ('id','get_usuario', 'fecha', 'estado', 'observacion' )
 	inlines = [
 		LineaPedidoInline
 	]
