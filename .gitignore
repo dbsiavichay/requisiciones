@@ -7,3 +7,4 @@ inventario/migrations/
 autenticacion/migrations/
 requisiciones/migrations/
 notificaciones/migrations/
+realtime/node_modules/

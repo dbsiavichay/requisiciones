@@ -1,0 +1,18 @@
+﻿-- DROP FUNCTION notify_realtime();
+
+CREATE OR REPLACE FUNCTION notify_realtime()
+  RETURNS trigger AS
+$BODY$
+BEGIN
+    PERFORM pg_notify('addnotificacion', row_to_json(NEW)::text);
+    RETURN NULL;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+CREATE TRIGGER notify_realtime_trigger
+  AFTER INSERT
+  ON notificaciones_notificacion
+  FOR EACH ROW
+  EXECUTE PROCEDURE notify_realtime();
