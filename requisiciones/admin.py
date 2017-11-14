@@ -1,6 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.contrib import admin
+from .models import *
 
-# Register your models here.
+class LineaPedidoInline(admin.TabularInline):
+    model = LineaPedido    
+
+class PedidoAdmin(admin.ModelAdmin):
+	list_display = ('get_usuario', 'fecha', 'estado', 'observacion' )
+	inlines = [
+		LineaPedidoInline
+	]
+
+	def get_usuario(self, obj):
+		return obj.usuario.get_full_name()
+
+admin.site.register(Pedido, PedidoAdmin)
