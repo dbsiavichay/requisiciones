@@ -2,11 +2,13 @@
 from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from pure_pagination import PaginationMixin
 from django.views.generic import ListView, DetailView
 from .models import *
 
-class NotificacionListView(ListView):
+class NotificacionListView(PaginationMixin, ListView):
 	model = Notificacion
+	paginate_by=10
 
 	def get_queryset(self):
 		queryset = super(NotificacionListView, self).get_queryset()

@@ -16,15 +16,17 @@
 		        <a href="{% url 'crear_pedido' %}" class="btn btn-sm btn-primary pull-right col-xs-2">
 		          	<i class="fa fa-plus-circle"></i> Crear
 		        </a>
+		        {% include 'includes/pagination.html' %}
 		    </div>
 		    <!-- Fin de encabezado -->
 		    {% ui_table obj in object_list %}		    	
 		    	{{ 'Codigo' }} {{ 'Fecha' }} {{ 'Estado' }} {{ 'Observación' }} {{ 'Detalle' }}
 		    {% body %}
 		    	{{ obj.id }} {{obj.fecha}} {{obj.get_estado}} 
-		    	{{ obj.observacion }}
+		    	{% if obj.observacion %} {{ obj.observacion }} {% else %} {{ '' }} {% endif %}
 		    	{% ui_button obj.get_absolute_url 'xs' 'search' %}
 		    {% endui_table %}	    	
+			{% include 'includes/pagination.html' %}
 	    </div>
 	</div>
 </div>

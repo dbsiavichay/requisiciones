@@ -2,12 +2,13 @@
 from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-
+from pure_pagination.mixins import PaginationMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .forms import *
 from .models import *
 
-class PedidoListView(ListView):
+class PedidoListView(PaginationMixin, ListView):
+	paginate_by=10
 	model = Pedido
 
 	def get_queryset(self):

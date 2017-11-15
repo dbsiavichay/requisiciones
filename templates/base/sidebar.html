@@ -29,6 +29,7 @@
                 </a>              
             </li>
 
+            {% if user.perfil.gestiona_pedidos %}
             <li class="sub-menu">
                 <a {% if 'inventario' in request.path %} class="active" {% endif %} href="#" >
                     <i class="fa fa-building"></i>
@@ -42,7 +43,8 @@
                         <a href="{% url 'productos' %}">Productos</a>
                     </li>
                 </ul>
-            </li>            
+            </li>
+            {% endif %}
 
             <li class="sub-menu">
                 <a {% if 'requisiciones' in request.path %} class="active" {% endif %} href="#" >
@@ -51,7 +53,7 @@
                 </a>
                 <ul class="sub">                    
                     <li {% if 'pedido' in request.path %} class="active" {% endif %}>
-                        <a href="{% url 'pedidos' %}">Mis pedidos</a>
+                        <a href="{% url 'pedidos' %}">Pedidos</a>
                     </li>                    
                 </ul>
             </li>

@@ -2,12 +2,13 @@
 from __future__ import unicode_literals
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-
+from pure_pagination import PaginationMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .models import *
 
-class CategoriaListView(ListView):
+class CategoriaListView(PaginationMixin, ListView):	
 	model = Categoria
+	paginate_by=10
 
 class CategoriaCreateView(CreateView):
 	model = Categoria
@@ -23,8 +24,9 @@ class CategoriaDeleteView(DeleteView):
 	model = Categoria
 	success_url = reverse_lazy('categorias')
 
-class ProductoListView(ListView):
+class ProductoListView(PaginationMixin, ListView):
 	model = Producto
+	paginate_by=10
 
 class ProductoCreateView(CreateView):
 	model = Producto

@@ -17,6 +17,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
 
 admin.site.site_header = 'Administración del Sistema de Requisiciones'
 
@@ -26,5 +27,5 @@ urlpatterns = [
     url(r'^requisiciones/', include('requisiciones.urls')),
     url(r'^notificaciones/', include('notificaciones.urls')),
     url(r'^admin/', admin.site.urls),    
-    url(r'^$', TemplateView.as_view(template_name='base.html'), name='home'),
+    url(r'^$', login_required(TemplateView.as_view(template_name='base.html')), name='home'),
 ]

@@ -16,6 +16,7 @@
 		        <a href="{% url 'crear_producto' %}" class="btn btn-sm btn-primary pull-right col-xs-2">
 		          	<i class="fa fa-plus-circle"></i> Agregar
 		        </a>
+		        {% include 'includes/pagination.html' %}
 		    </div>
 		    <!-- Fin de encabezado -->
 		    {% ui_table obj in object_list %}		    	
@@ -23,7 +24,8 @@
 		    {% body %}
 		    	{{ obj.nombre }} {{obj.categoria}} 		    	
 		    	{% ui_button obj.get_absolute_url 'xs' 'pencil' %}
-		    {% endui_table %}	    	
+		    {% endui_table %}
+		    {% include 'includes/pagination.html' %}	    	
 	    </div>
 	</div>
 </div>

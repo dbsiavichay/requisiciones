@@ -29,6 +29,11 @@ body {
     font-size: 12px;
 }
 
+/*dbsiavichay Pagination*/
+.pagination {
+    margin:0;
+}
+
 /*HOME*/
 
 .btn-menu {
@@ -41,72 +46,6 @@ body {
     font-size: 30px;
 }
 
-
-/*KINDS*/
-.kind-icon {
-  display: inline-block;
-  padding: 5px;
-  border: 3px dashed transparent;
-}
-
-.kind-icon.selected {
-  border: 3px dashed;
-  border-radius: 3px;
-}
-
-/* PROGRESS BAR */
-.wizard {
-  text-align: center;
-}
-.wizard a {
-    padding: 10px 12px 10px;
-    margin-right: -3px;
-    background: #efefef;
-    position: relative;
-    display: inline-block;
-}
-.wizard a:after {
-    width: 0;
-    height: 0;
-    border-top: 18px inset transparent;
-    border-bottom: 20px inset transparent;
-    border-left: 20px solid #efefef;
-    position: absolute;
-    content: "";
-    top: 0;
-    right: -20px;
-    z-index: 2;
-}
-.wizard a:first-child:before,
-.wizard a:last-child:after {
-    border: none;
-}
-.wizard a:first-child {
-    -webkit-border-radius: 4px 0 0 4px;
-       -moz-border-radius: 4px 0 0 4px;
-            border-radius: 4px 0 0 4px;
-}
-.wizard a:last-child {
-    -webkit-border-radius: 0 4px 4px 0;
-       -moz-border-radius: 0 4px 4px 0;
-            border-radius: 0 4px 4px 0;
-}
-.wizard .badge {
-    margin: 0 5px 0 18px;
-    position: relative;
-    top: -1px;
-}
-.wizard a:first-child .badge {
-    margin-left: 0;
-}
-.wizard .current {
-    background: #007ACC;
-    color: #fff;
-}
-.wizard .current:after {
-    border-left-color: #007ACC;
-}
-/*END wizard*/
 
 ul li {
     list-style: none;

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'widget_tweaks',
+    'pure_pagination',
     'ui_components',
     'autenticacion',
     'inventario',
@@ -140,3 +141,10 @@ STATICFILES_DIRS = (
 # Login config
 LOGIN_URL = reverse_lazy('ingresar')
 LOGIN_REDIRECT_URL = reverse_lazy('home')
+
+#Pagination settings
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 5,
+    'MARGIN_PAGES_DISPLAYED': 2,
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
