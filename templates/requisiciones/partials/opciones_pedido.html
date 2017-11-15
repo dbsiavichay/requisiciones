@@ -1,0 +1,35 @@
+{% if pedido %}                
+    {% if pedido.estado < 3 and pedido.usuario == user %}                
+    <a href="{% url 'cancelar_pedido' pedido.id %}" class="btn btn-sm btn-danger pull-right">
+        <i class="fa fa-close"></i> Cancelar pedido
+    </a>
+    {% endif %}
+
+    {% if user.perfil.gestiona_pedidos and pedido.estado == 2 or pedido.estado == 3 %}                
+    <a href="{% url 'entregar_pedido' pedido.id %}" class="btn btn-sm btn-info pull-right">
+        <i class="fa fa-check"></i> Entregar
+    </a>
+    {% endif %}    
+
+    {% if user.perfil.gestiona_pedidos and pedido.estado == 2 or pedido.estado == 3 %}                
+    <a href="{% url 'negar_pedido' pedido.id %}" class="btn btn-sm btn-danger pull-right">
+        <i class="fa fa-close"></i> Negar
+    </a>
+    {% endif %}
+
+    {% if user.perfil.gestiona_pedidos and pedido.estado == 2 %}                
+    <a href="{% url 'procesar_pedido' pedido.id %}" class="btn btn-sm btn-success pull-right">
+        <i class="fa fa-spinner"></i> Procesar
+    </a>
+    {% endif %}
+                
+    {% if pedido.estado == 1 %}
+    <a href="{% url 'editar_pedido' pedido.id %}" class="btn btn-sm btn-success pull-right">
+        <i class="fa fa-pencil"></i> Editar
+    </button>
+    {% endif %} 
+
+    <a href="{% url 'crear_pedido' %}" class="btn btn-sm btn-primary pull-right">
+        <i class="fa fa-plus"></i> Crear
+    </a>                
+{% endif %}

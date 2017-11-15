@@ -12,9 +12,11 @@ class PedidoListView(PaginationMixin, ListView):
 	model = Pedido
 
 	def get_queryset(self):
-		queryset = super(PedidoListView, self).get_queryset().exclude(estado=1)
-		if not self.request.user.perfil.gestiona_pedidos:
-			queryset = queryset.filter(usuario=self.request.user)				
+		queryset = super(PedidoListView, self).get_queryset()
+		if self.request.user.perfil.gestiona_pedidos:
+			queryset = queryset.exclude(estado=1)
+		else:
+			queryset = queryset.filter(usuario=self.request.user)
 		return queryset
 
 class PedidoCreateView(CreateView):
@@ -74,31 +76,16 @@ class PedidoUpdateView(UpdateView):
 		return formset
 
 	def get(self, request, *args, **kwargs):
-		self.object = self.get_object()
+		self.object = self.get_object()		
+
 		if self.object.usuario != request.user:
-			return redirect('pedidos')
+			if request.user.perfil.gestiona_pedidos:
+				return redirect('ver_pedido', self.object.id)
+			else:			
+				return redirect('pedidos')
 		if self.object.estado != 1:
 			return redirect('ver_pedido', self.object.id)
 		return super(PedidoUpdateView, self).get(request, *args, **kwargs)
-
-class CancelarPedidoUpdateView(UpdateView):
-	model = Pedido
-	fields = ()
-	success_url = reverse_lazy('pedidos')
-
-	def post(self, request, *args, **kwargs):
-		return redirect(self.get_success_url())
-
-	def get(self, request, *args, **kwargs):
-		self.object = self.get_object()
-		if self.object.usuario != request.user and not request.user.perfil.gestiona_pedidos:
-			return redirect('pedidos')
-		if self.object.estado > 3:
-			return redirect('ver_pedido', self.object.id)
-			
-		self.object.estado = 7
-		self.object.save()
-		return redirect('ver_pedido', self.object.id)
 
 class PedidoDetailView(DetailView):
 	model = Pedido
@@ -108,3 +95,59 @@ class PedidoDetailView(DetailView):
 		if self.object.usuario != request.user and not request.user.perfil.gestiona_pedidos:
 			return redirect('pedidos')
 		return super(PedidoDetailView, self).get(request, *args, **kwargs)
+
+class BasePedidoUpdateView(UpdateView):
+	model = Pedido
+	fields = ()
+	success_url = reverse_lazy('pedidos')
+	estado = 1
+
+	def post(self, request, *args, **kwargs):
+		return redirect(self.get_success_url())
+
+	def guardar(self):
+		self.object.estado = self.estado
+		self.object.save()
+		return redirect('ver_pedido', self.object.id)
+
+class CancelarPedidoUpdateView(BasePedidoUpdateView):
+	estado = 10
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.usuario != request.user:
+			return redirect('pedidos')
+		if self.object.estado > 2:
+			return redirect('ver_pedido', self.object.id)
+			
+		return self.guardar()
+
+class ProcesarPedidoUpdateView(BasePedidoUpdateView):
+	estado = 3
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.estado != 2:
+			return redirect('ver_pedido', self.object.id)
+			
+		return self.guardar()
+
+class NegarPedidoUpdateView(BasePedidoUpdateView):	
+	estado = 4
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.estado != 2 and self.object.estado != 3:
+			return redirect('ver_pedido', self.object.id)
+			
+		return self.guardar()
+
+class EntregarPedidoUpdateView(BasePedidoUpdateView):	
+	estado = 5
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.estado != 2 and self.object.estado != 3:
+			return redirect('ver_pedido', self.object.id)
+			
+		return self.guardar()

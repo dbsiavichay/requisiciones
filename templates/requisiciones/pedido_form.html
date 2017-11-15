@@ -13,17 +13,7 @@
                   <i class="fa fa-angle-right"></i>
                   Lineas de pedido
                 </h4>
-                {% if object %}                
-                {% if object.estado < 4 %}                
-                <a href="{% url 'cancelar_pedido' object.id %}" class="btn btn-sm btn-danger pull-right">
-                    <i class="fa fa-close"></i> Cancelar pedido
-                </a>
-                {% endif %}
-                       
-                <a href="{% url 'crear_pedido' %}" class="btn btn-sm btn-primary pull-right">
-                    <i class="fa fa-plus"></i> Crear
-                </a>
-                {% endif %}
+                {% include 'requisiciones/partials/opciones_pedido.html' %}
             </div>            
             {% include 'requisiciones/partials/form_pedido.html' with formset=formset %}
 

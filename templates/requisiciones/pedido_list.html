@@ -2,7 +2,7 @@
 {% load ui_components %}
 
 {% block content %}
-<h3><i class="fa fa-angle-right"></i> Mis pedidos</h3>
+<h3><i class="fa fa-angle-right"></i> Pedidos</h3>
 
 <div class="row mt">
 	<div class="col-lg-12">
@@ -20,9 +20,11 @@
 		    </div>
 		    <!-- Fin de encabezado -->
 		    {% ui_table obj in object_list %}		    	
-		    	{{ 'Codigo' }} {{ 'Fecha' }} {{ 'Estado' }} {{ 'Observación' }} {{ 'Detalle' }}
+		    	{{ 'Codigo' }} {% if user.perfil.gestiona_pedidos %} {{ 'Usuario' }} {% endif %}
+		    	{{ 'Fecha' }} {{ 'Estado' }} {{ 'Observación' }} {{ 'Detalle' }}
 		    {% body %}
-		    	{{ obj.id }} {{obj.fecha}} {{obj.get_estado}} 
+		    	{{ obj.id }} {% if user.perfil.gestiona_pedidos %} {{ obj.usuario.get_full_name }} {% endif %}
+		    	{{obj.fecha}} {{obj.get_estado}} 
 		    	{% if obj.observacion %} {{ obj.observacion }} {% else %} {{ '' }} {% endif %}
 		    	{% ui_button obj.get_absolute_url 'xs' 'search' %}
 		    {% endui_table %}	    	

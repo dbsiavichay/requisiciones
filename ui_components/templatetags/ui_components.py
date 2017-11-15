@@ -41,7 +41,7 @@ class TableNode(Node):
             yield node
 
     def render(self, context):        
-        self.nodelist_headers = [node for node in self.nodelist_headers if isinstance(node, VariableNode)]
+        self.nodelist_headers = [node for node in self.nodelist_headers if not isinstance(node, TextNode)]
         self.nodelist_loop = [node for node in self.nodelist_loop if not isinstance(node, TextNode)]
 
         len_nodelist_headers = len(self.nodelist_headers)
@@ -219,8 +219,7 @@ def do_table(parser, token):
                                       " %s" % token.contents)
 
     sequence = parser.compile_filter(bits[in_index + 1])
-    nodelist_headers = parser.parse(('body', 'empty', 'endui_table'))    
-    #nodelist_loop = parser.parse(('empty', 'endfor',))    
+    nodelist_headers = parser.parse(('body', 'empty', 'endui_table'))        
     token = parser.next_token()
     if token.contents == 'body':
         nodelist_loop = parser.parse(('empty', 'endui_table',))

@@ -14,26 +14,41 @@ def generar_notificacion(sender, instance, created, raw, update_fields, **kwargs
     if model_name not in list_of_models:
         return
 
-    if instance.estado != 2:
-        return        
-    user = get_user()
+    if instance.estado == 1 or instance.estado==10:
+        return
 
-    #instance.save_notification(user.profile)
+    if instance.estado == 2:
+        mensaje = 'Ha generado un pedido.'
+    elif instance.estado == 3:
+        mensaje = 'Tu pedido esta siendo procesado.'
+    elif instance.estado == 4:
+        mensaje = 'Tu pedido ha sido negado.'
+    elif instance.estado == 5:
+        mensaje = 'Tu pedido ha sido entregado.'
+    else:
+        mensaje = ''
+
     ctype = ContentType.objects.get_for_model(instance)
-    perfiles = Perfil.objects.filter(gestiona_pedidos=True)
-    mensaje = 'Ha generado un pedido.'
 
-    for perfil in perfiles:
+    user = get_user()
+    if instance.estado == 2:    
+        perfiles = Perfil.objects.filter(gestiona_pedidos=True)    
+        for perfil in perfiles:
+            Notificacion.objects.create(
+                remitente=user,
+                receptor=perfil.usuario,
+                mensaje= mensaje, 
+                id_objecto= instance.id,
+                tipo_contenido= ctype,            
+            )
+    else:
         Notificacion.objects.create(
             remitente=user,
-            receptor=perfil.usuario,
+            receptor=instance.usuario,
             mensaje= mensaje, 
             id_objecto= instance.id,
             tipo_contenido= ctype,            
         )
-    # if created:
-    # elif not raw: #Cuando edita un objeto
-    #     instance.save_notification(user.profile)
 
 @receiver(post_delete)
 def notification_delete_log(sender, instance, **kwargs):
