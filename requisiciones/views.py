@@ -11,7 +11,7 @@ class PedidoListView(ListView):
 	model = Pedido
 
 	def get_queryset(self):
-		queryset = super(PedidoListView, self).get_queryset()
+		queryset = super(PedidoListView, self).get_queryset().exclude(estado=1)
 		if not self.request.user.perfil.gestiona_pedidos:
 			queryset = queryset.filter(usuario=self.request.user)				
 		return queryset

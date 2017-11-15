@@ -5,7 +5,14 @@
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
         	<p class="centered">
-                <a href="profile.html"><img src="{% static 'assets/img/default-user.png' %}" class="img-circle" width="60"></a>
+                <a href="{% url 'perfil' user.username %}">
+                    {% if user.perfil.imagen %}
+                    <img src="{{ user.perfil.image.url }}" class="img-circle" width="60">
+                    {% else %}
+                    <img src="{% static 'assets/img/default-user.png' %}" class="img-circle" width="60">
+                    {% endif %}
+                </a>
+                
             </p>
         	<h5 class="centered">{{ user.get_full_name }}</h5>            
             <li class="mt">            
@@ -47,16 +54,19 @@
                         <a href="{% url 'pedidos' %}">Mis pedidos</a>
                     </li>                    
                 </ul>
-            </li> 
-
-
+            </li>
             <li class="sub-menu">
-                <a {% if 'password' in request.path %} class="active" {% endif %} href="#" >
+                <a {% if 'autenticacion' in request.path %} class="active" {% endif %} href="#" >
                     <i class="fa fa-user"></i>
                     <span>Cuenta</span>
                 </a>
                 <ul class="sub">
-                    <li {% if 'password' in request.path %} class="active" {% endif %}><a href="/change-password/">Cambiar contraseña</a></li>
+                    <li {% if 'perfil' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'perfil' user.username %}">Mi perfil</a>
+                    </li>
+                    <li {% if 'password' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'cambiar-password' %}">Cambiar contraseña</a>
+                    </li>
                 </ul>
             </li>
 

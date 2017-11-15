@@ -7,6 +7,8 @@ from django.utils.html import format_html
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Pedido(models.Model):
+	class Meta:
+		ordering = ['-fecha']
 	ESTADO_CHOICES = (
 		(1, 'Borrador'),(2, 'Generado'),(3, 'En proceso'),
 		(4, 'Negado'),(5, 'Entregado'),(6, 'Finalizado'),

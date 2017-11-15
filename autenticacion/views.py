@@ -21,5 +21,11 @@ class PerfilDetailView(DetailView):
 		else:
 			return super(PerfilDetailView, self).get(request, *args, **kwargs)
 
-	def get_object(self):
-		return self.request.user.perfil
+	def get_object(self, queryset=None):
+		username = self.request.GET.get('username') or self.kwargs.get('username') or None
+		try:			
+			perfil = self.model.objects.get(usuario__username=username)
+		except self.model.DoesNotExist:
+			perfil = self.request.user.perfil		
+
+		return perfil
