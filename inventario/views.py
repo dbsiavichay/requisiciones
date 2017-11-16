@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from pure_pagination import PaginationMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from .models import *
+from .forms import *
 
 class CategoriaListView(PaginationMixin, ListView):	
 	model = Categoria
@@ -41,3 +42,13 @@ class ProductoUpdateView(UpdateView):
 class ProductoDeleteView(DeleteView):
 	model = Producto
 	success_url = reverse_lazy('productos')
+
+class ProductoLogCreateView(CreateView):
+	model = ProductoLog
+	fields = ('producto','cantidad', 'observacion')
+	success_url = reverse_lazy('productos')
+
+	# def form_valid(self, form):
+	# 	self.object = form.save(commit=False)
+	# 	self.object.tipo = 1
+		

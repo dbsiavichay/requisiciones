@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.utils.html import format_html		
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+@python_2_unicode_compatible
 class Pedido(models.Model):
 	class Meta:
 		ordering = ['-fecha']
@@ -23,6 +24,9 @@ class Pedido(models.Model):
 	estado = models.PositiveSmallIntegerField(choices=ESTADO_CHOICES, default=1)
 	observacion = models.TextField(blank=True, null=True)
 	usuario = models.ForeignKey('auth.User')
+
+	def __str__(self):
+		return '%s | %s' % (self.id, self.usuario.get_full_name())
 
 	def get_estado(self):
 		return format_html(

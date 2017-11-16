@@ -7,7 +7,11 @@ class CategoriaAdmin(admin.ModelAdmin):
 	pass	
 
 class ProductoAdmin(admin.ModelAdmin):
-	list_display = ('nombre', 'categoria')
+	list_display = ('nombre', 'stock', 'categoria')
+
+class ProductoLogAdmin(admin.ModelAdmin):
+	list_display = ('tipo', 'producto', 'cantidad', 'fecha', 'pedido')
 
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Producto, ProductoAdmin)
+admin.site.register(ProductoLog, ProductoLogAdmin)
