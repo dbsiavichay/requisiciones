@@ -26,7 +26,7 @@
 		    	{{ obj.id }} {% if user.perfil.gestiona_pedidos %} {{ obj.usuario.get_full_name }} {% endif %}
 		    	{{obj.fecha}} {{obj.get_estado}} 
 		    	{% if obj.observacion %} {{ obj.observacion }} {% else %} {{ '' }} {% endif %}
-		    	{% ui_button obj.get_absolute_url 'xs' 'search' %}
+		    	{% ui_button obj 'xs' 'search' %}
 		    {% endui_table %}	    	
 			{% include 'includes/pagination.html' %}
 	    </div>

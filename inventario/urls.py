@@ -12,4 +12,6 @@ urlpatterns = [
 	url(r'^producto/crear/$', gestiona_pedidos_required(ProductoCreateView.as_view()), name='crear_producto'),    	
 	url(r'^producto/(?P<pk>\d+)/editar/$', gestiona_pedidos_required(ProductoUpdateView.as_view()), name='editar_producto'),	
 	url(r'^producto/(?P<pk>\d+)/eliminar/$', gestiona_pedidos_required(ProductoDeleteView.as_view()), name='eliminar_producto'),
+
+	url(r'^producto/(?P<pk>\d+)/entrada/$', gestiona_pedidos_required(ProductoLogCreateView.as_view()), name='entrada_producto'),
 ]

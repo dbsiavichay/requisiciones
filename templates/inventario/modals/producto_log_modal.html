@@ -1,0 +1,17 @@
+<div id="producto_log" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Registro de stock</h4>
+            </div>
+            <div class="modal-body">
+                {% include 'inventario/partials/form_producto_log.html' with form=form %}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button ng-click="delete()" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>

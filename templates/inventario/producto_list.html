@@ -20,15 +20,15 @@
 		    </div>
 		    <!-- Fin de encabezado -->
 		    {% ui_table obj in object_list %}		    	
-		    	{{ 'Nombre' }} {{ 'Categoria' }} {{ 'Existensias' }} {{ 'Detalle' }}
+		    	{{ 'Categoria' }} {{ 'Nombre' }} {{ 'Existensias' }} {{ 'Opciones' }} {{ 'Detalle' }}
 		    {% body %}
-		    	{{ obj.nombre }} {{obj.categoria}} 
+		    	{{obj.categoria}} {{ obj.nombre }} 
 		    	{% if obj.stock %} {{ obj.stock }} {% else %} {{ 'No definido' }} {% endif %}
-		    	{% ui_button obj.get_absolute_url 'xs' 'pencil' %}
+		    	{% ui_button obj.id 'xs' 'sign-in' 'entrada_producto' %}
+		    	{% ui_button obj 'xs' 'pencil' %}
 		    {% endui_table %}
 		    {% include 'includes/pagination.html' %}	    	
 	    </div>
 	</div>
 </div>
-{% include 'inventario/modals/producto_log_modal.html' %}
 {% endblock%}

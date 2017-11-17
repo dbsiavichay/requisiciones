@@ -1,7 +1,7 @@
 from django import template
+from django.urls import reverse_lazy
 from django.utils.encoding import force_text
 from django.template.loader import render_to_string
-
 
 from django.utils.safestring import mark_safe
 import re
@@ -241,7 +241,11 @@ def ui_input(field):
     }
 
 @register.inclusion_tag('ui_components/button.html')
-def ui_button(url, size, icon):    
+def ui_button(obj, size, icon, name = None):
+    if name is not None:
+        url = reverse_lazy(name, args=[obj])
+    else:
+        url = obj.get_absolute_url()
     return {
         'url':url,
         'size':size,

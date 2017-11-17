@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from pure_pagination.mixins import PaginationMixin
@@ -14,7 +15,7 @@ class PedidoListView(PaginationMixin, ListView):
 	def get_queryset(self):
 		queryset = super(PedidoListView, self).get_queryset()
 		if self.request.user.perfil.gestiona_pedidos:
-			queryset = queryset.exclude(estado=1)
+			queryset = queryset.exclude(Q(estado=1), ~Q(usuario=self.request.user))
 		else:
 			queryset = queryset.filter(usuario=self.request.user)
 		return queryset

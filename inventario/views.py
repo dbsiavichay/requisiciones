@@ -45,10 +45,38 @@ class ProductoDeleteView(DeleteView):
 
 class ProductoLogCreateView(CreateView):
 	model = ProductoLog
-	fields = ('producto','cantidad', 'observacion')
+	fields = ('cantidad', 'observacion')
 	success_url = reverse_lazy('productos')
 
-	# def form_valid(self, form):
-	# 	self.object = form.save(commit=False)
-	# 	self.object.tipo = 1
+	def get_context_data(self, **kwargs):		
+		context = super(ProductoLogCreateView, self).get_context_data(**kwargs)
+		context.update({
+			'producto': self.get_producto()
+		})
+		return context
+
+	def form_valid(self, form):
+		producto = self.get_producto()
+		if producto is None:
+			return redirect(self.success_url)
+		self.object = form.save(commit=False)
+		self.object.tipo = 1
+		self.object.producto = producto
+		self.object.save()		
+		return redirect(self.get_success_url())
+
+	def get(self, request, *args, **kwargs):
+		producto = self.get_producto()
+		if producto is None:
+			return redirect(self.success_url)
+		else:
+			return super(ProductoLogCreateView, self).get(request, *args, **kwargs)
+
+	def get_producto(self):
+		pk = self.request.GET.get('pk') or self.kwargs.get('pk') or None
+		try:
+			producto = Producto.objects.get(pk=pk)
+		except Producto.DoesNotExist:
+			producto = None			
+		return producto
 		

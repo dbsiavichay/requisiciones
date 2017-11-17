@@ -22,7 +22,7 @@ class Producto(models.Model):
 	stock = models.FloatField(blank=True, null=True)
 
 	def __str__(self):
-		return self.nombre
+		return '%s > %s' % (self.categoria, self.nombre)
 
 	def get_absolute_url(self):
 		return reverse_lazy('editar_producto', args=[self.id])
