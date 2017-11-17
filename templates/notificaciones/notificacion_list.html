@@ -22,7 +22,7 @@
 		    	{{ obj.remitente.get_full_name }} {{ obj.mensaje }} 
 		    	{{ obj.fecha_creacion|timesince }}
 		    	{{ obj.get_estado }}
-		    	{% ui_button obj.get_absolute_url 'xs' 'search' %}
+		    	{% ui_button obj 'xs' 'search' %}
 		    {% endui_table %}
 		    {% include 'includes/pagination.html' %}	      
 	    </div>
@@ -34,18 +34,17 @@
 <script type="text/javascript">
 	socket.on('notificacion', function (data) {
 		var url = '/notificaciones/notificacion/' + data.id + '/';
-		$.get(url, function (notificacion) {			
+		$.get(url, function (data) {
+			var lista = data.lista
 			var $row = $('tr.realtime').clone();
 			$row.removeClass('hide');
 			$row.removeClass('realtime');
 
 			$row.find('td').each(function (index, item) {
-
-
 				if (index != $row.find('td').length - 1)
-					$(item).html(notificacion.data[index])
+					$(item).html(lista[index])
 				else
-					$(item).find('a').attr('href',notificacion.data[index])
+					$(item).find('a').attr('href',lista[index])
 			})
 
 			$('table').prepend($row);			

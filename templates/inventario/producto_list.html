@@ -20,7 +20,7 @@
 		    </div>
 		    <!-- Fin de encabezado -->
 		    {% ui_table obj in object_list %}		    	
-		    	{{ 'Categoria' }} {{ 'Nombre' }} {{ 'Existensias' }} {{ 'Opciones' }} {{ 'Detalle' }}
+		    	{{ 'Categoria' }} {{ 'Nombre' }} {{ 'Existensias' }} {{ 'Entradas' }} {{ 'Detalle' }}
 		    {% body %}
 		    	{{obj.categoria}} {{ obj.nombre }} 
 		    	{% if obj.stock %} {{ obj.stock }} {% else %} {{ 'No definido' }} {% endif %}

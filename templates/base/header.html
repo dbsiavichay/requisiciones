@@ -16,18 +16,31 @@
             <li id="header_inbox_bar" class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
                     <i class="fa fa-bell"></i>                    
-                    <span id='notificaciones_count' class="{% if not notificaciones %} hide {% endif %} badge bg-theme">{{ notificaciones_count }}</span>                    
+                    <span id="notificaciones" class="notificaciones {% if not notificaciones %} hide {% endif %} badge bg-theme">{{ notificaciones_count }}</span>                    
                 </a>
                 <ul class="dropdown-menu extended inbox">
                     <div class="notify-arrow notify-arrow-green"></div>                    
                     <li>
                         <p class="green">
                         {% if notificaciones %}
-                            Tienes {{ notificaciones_count }} notificaciónes nuevas.
+                            Tienes <span class="notificaciones">{{ notificaciones_count }}</span> notificaciónes nuevas.
                         {% else %}
-                            No tienes notificaciones nuevass
+                            No tienes notificaciones nuevas
                         {% endif %}
                         </p>
+                    </li>
+                    <li class="notificacion hide">
+                        <a href="#">
+                            <span class="photo">
+                                <img alt="avatar" src="/static/assets/img/default-user.png">
+                            </span>
+                            <span class="subject">
+                                <span class="from"></span>
+                            </span>
+                            <span class="message">                                
+                            </span>
+                            <em><strong><i class="fa fa-clock-o"></i> Justo ahora</strong></em>
+                        </a>
                     </li>
                     {% for object in notificaciones %}
                     <li>

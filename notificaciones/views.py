@@ -23,7 +23,15 @@ class NotificationDetailView(DetailView):
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		if request.is_ajax():			
-			res = [
+			res = {
+				'usuario': self.object.remitente.get_full_name(),
+				'mensaje': self.object.mensaje,
+				'hace': 'Justo ahora',
+				'estado': self.object.get_estado(),
+				'url': self.object.get_absolute_url()
+			}
+
+			res2 = [
 				self.object.remitente.get_full_name(),
 				self.object.mensaje,
 				'Justo ahora',
@@ -31,7 +39,8 @@ class NotificationDetailView(DetailView):
 				self.object.get_absolute_url()
 			]
 
-			return JsonResponse({'data':res})
+
+			return JsonResponse({'data':res, 'lista': res2})
 
 		if self.object.receptor != request.user:
 			return redirect('notificaciones')

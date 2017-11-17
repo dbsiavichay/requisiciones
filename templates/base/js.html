@@ -22,19 +22,28 @@
 		})
 	})
 
-
-	socket.on('count', function (notificacion) {
-		console.log(notificacion)
-		var $span = $('#notificaciones_count');
-		var count = parseInt($span.text());
+	socket.on('count', function (data) {		
+		var $count = $('#notificaciones');
+		var count = parseInt($count.text());		
 		count += 1;
-		$span.text(count);
-		if ($span.hasClass('hide')) $span.removeClass('hide');
-		$.notify({			
-			message: 'Alguien ha generado un nuevo pedido.' 
-		},{
-			// settings
-			type: 'success'
+		$('.notificaciones').text(count);
+		if ($count.hasClass('hide')) $count.removeClass('hide');
+
+		var url = '/notificaciones/notificacion/' + data.id + '/';
+		$.get(url, function (data) {
+			var notificacion = data.data
+			var $li = $('.notificacion.hide');
+			var $notificacion = $li.clone().removeClass('hide').removeClass('notificacion');
+			$notificacion.find('a').attr('href', notificacion.url);
+			$notificacion.find('.from').text(notificacion.usuario)
+			$notificacion.find('.message').text(notificacion.mensaje)
+			$notificacion.insertAfter($li);
+			$.notify({			
+				message: notificacion.usuario + ': ' + notificacion.mensaje
+			},{
+				// settings
+				type: 'success'
+			});			
 		});
 	});		
 </script>

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load ui_components %}
 
 {% block content %}
 <h3>
@@ -17,28 +18,15 @@
                     {{ object.get_estado }}
                 </h4>
                 {% include 'requisiciones/partials/opciones_pedido.html' with pedido=object %}                
-            </div>            
-            <table class="table table-striped">
-                <thead>
-                    <tr>                        
-                        <th>Cantidad</th>                        
-                        <th>Producto</th>                        
-                    </tr>
-                </thead>
-                <tbody>                    
-                    {% for linea in object.lineapedido_set.all %}                    
-                    <tr>            
-                        <td class="col-xs-2">
-                            {{ linea.cantidad }}
-                        </td>
-                        <td>
-                            {{ linea.producto }}
-                        </td>                        
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            </div>
 
+            {% ui_table linea in object.lineapedido_set.all %}               
+                {{ 'Cantidad pedida' }} {{ 'Producto' }}
+                {% if user.perfil.gestiona_pedidos %} {{ 'Existensias' }} {% endif %}
+            {% body %}
+                {{ linea.cantidad }} {{ linea.producto }}                
+                {% if user.perfil.gestiona_pedidos %} {{ linea.producto.stock }}  {% endif %}
+            {% endui_table %}
         </div>
     </div>
 </div>
