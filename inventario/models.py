@@ -37,8 +37,8 @@ class ProductoLog(models.Model):
 	tipo = models.PositiveSmallIntegerField(choices = TIPO_CHOICES)
 	producto = models.ForeignKey(Producto)
 	cantidad = models.FloatField()
-	fecha = models.DateTimeField(auto_now_add=True)	
-	observacion = models.TextField(blank=True, null=True)
+	fecha = models.DateTimeField(auto_now_add=True)
+	nota = models.TextField(blank=True, null=True)	
 	pedido = models.ForeignKey('requisiciones.Pedido', blank=True, null=True)
 
 	def __str__(self):

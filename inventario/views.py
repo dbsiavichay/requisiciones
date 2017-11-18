@@ -45,7 +45,7 @@ class ProductoDeleteView(DeleteView):
 
 class ProductoLogCreateView(CreateView):
 	model = ProductoLog
-	fields = ('cantidad', 'observacion')
+	fields = ('cantidad', 'nota')
 	success_url = reverse_lazy('productos')
 
 	def get_context_data(self, **kwargs):		

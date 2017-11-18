@@ -23,9 +23,23 @@
             {% ui_table linea in object.lineapedido_set.all %}               
                 {{ 'Cantidad pedida' }} {{ 'Producto' }}
                 {% if user.perfil.gestiona_pedidos %} {{ 'Existensias' }} {% endif %}
+                {% if linea.cantidad_recibida %}
+                {{ 'Cantidad entregada' }}
+                {% endif %}
+                {% if linea.cantidad_recibida %}
+                {{ 'Observación' }}
+                {% endif %}
             {% body %}
-                {{ linea.cantidad }} {{ linea.producto }}                
+                {{ linea.cantidad_pedida }} {{ linea.producto }}                
                 {% if user.perfil.gestiona_pedidos %} {{ linea.producto.stock }}  {% endif %}
+                {% if linea.cantidad_recibida %}
+                {{ linea.cantidad_recibida }} 
+                {% endif %}
+                {% if linea.cantidad_recibida and linea.observacion %}
+                {{ linea.observacion }} 
+                {% else %} 
+                {{ '' }} 
+                {% endif %}
             {% endui_table %}
         </div>
     </div>

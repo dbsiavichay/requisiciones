@@ -22,7 +22,7 @@ class Pedido(models.Model):
 
 	fecha = models.DateTimeField(auto_now_add=True)
 	estado = models.PositiveSmallIntegerField(choices=ESTADO_CHOICES, default=1)
-	observacion = models.TextField(blank=True, null=True)
+	nota = models.TextField(blank=True, null=True)
 	usuario = models.ForeignKey('auth.User')
 
 	def __str__(self):
@@ -38,8 +38,10 @@ class Pedido(models.Model):
 	def get_absolute_url(self):
 		return reverse_lazy('ver_pedido', args=[self.id])
 
-class LineaPedido(models.Model):
-	cantidad = models.FloatField(validators = [MinValueValidator(0.01),])	
+class LineaPedido(models.Model):	
+	cantidad_pedida = models.FloatField(validators = [MinValueValidator(0.01),])
+	cantidad_recibida = models.FloatField(blank=True, null=True)
+	fecha_recepcion = models.DateTimeField(auto_now=True)	
 	producto = models.ForeignKey('inventario.Producto')
 	pedido = models.ForeignKey(Pedido)
 

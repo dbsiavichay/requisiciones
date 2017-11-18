@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h3>
+    <i class="fa fa-angle-right"></i> Pedidos
+</h3>
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="content-panel">
+            <div class="content-panel-header">
+                <h4>
+                  <i class="fa fa-angle-right"></i>
+                  Entregar pedido
+                </h4>                
+            </div>               
+            {% include 'requisiciones/partials/entregar_pedido_formset.html' with formset=formset %}
+
+        </div>
+    </div>
+</div>
+{% endblock%}

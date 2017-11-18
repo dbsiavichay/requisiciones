@@ -1,0 +1,46 @@
+{% load widget_tweaks %}
+<form class="form-horizontal" action="" method="POST" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}    
+    <table class="table table-striped">
+        <thead>
+            <tr>                        
+                <th>Cantidad</th>                        
+                <th>Producto</th>            
+                <th>Existencias</th>            
+                <th>Cantidad a entregar</th>                        
+                <th>Observación</th>                        
+            </tr>
+        </thead>
+        <tbody>
+            {{ formset.management_form }}
+            {% for form in formset %}
+            {{ form.id }}                                
+            <tr class="inline {{ formset.prefix }}">            
+                <td class="col-xs-2">
+                    {{ form.instance.cantidad_pedida }}
+                </td>
+                <td>
+                    {{ form.instance.producto }}
+                </td>
+                <td>
+                    {{ form.instance.producto.stock }}
+                </td>
+                <td>
+                    {{ form.cantidad_recibida|add_class:"form-control" }}{{ form.cantidad_recibida.errors }}
+                </td>
+                <td>
+                    {{ form.observacion|add_class:"form-control" }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-info">
+      <i class="fa fa-check"></i> Entregar
+    </button>
+    
+    <a href="{% url 'pedidos' %}" class="btn btn-link">Regresar</button>
+</form>
+
+

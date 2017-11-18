@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from pure_pagination.mixins import PaginationMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from inventario.models import ProductoLog
 from .forms import *
 from .models import *
 
@@ -52,6 +53,7 @@ class PedidoCreateView(CreateView):
 class PedidoUpdateView(UpdateView):
 	model = Pedido
 	form_class = PedidoForm
+	formset_class = LineaPedidoInlineFormSet
 	success_url = reverse_lazy('pedidos')
 
 	def get_context_data(self, **kwargs):
@@ -73,7 +75,7 @@ class PedidoUpdateView(UpdateView):
 	def get_lineapedido_formset(self):
 		self.object = self.get_object()
 		post_data = self.request.POST if self.request.method == 'POST' else None
-		formset = LineaPedidoInlineFormSet(post_data, instance=self.object)
+		formset = self.formset_class(post_data, instance=self.object)
 		return formset
 
 	def get(self, request, *args, **kwargs):
@@ -143,12 +145,38 @@ class NegarPedidoUpdateView(BasePedidoUpdateView):
 			
 		return self.guardar()
 
-class EntregarPedidoUpdateView(BasePedidoUpdateView):	
-	estado = 5
+class EntregarPedidoUpdateView(PedidoUpdateView):		
+	formset_class = EntregarLineaPedidoInlineFormSet
+	template_name = 'requisiciones/pedido_entregar.html'
+
+	def form_valid(self, form):
+		formset = self.get_lineapedido_formset()
+		
+		if formset.is_valid():						
+			self.object = form.save(commit=False)
+			self.object.estado = 5						
+			self.object.save()
+
+			for form in formset:
+				form.save()
+				ProductoLog.objects.create(
+					tipo=2,
+					producto = form.instance.producto,
+					cantidad = form.cleaned_data['cantidad_recibida'] * -1,					
+					pedido = form.instance.pedido
+				)			
+
+			return redirect(self.get_success_url())
+		else:
+			return self.form_invalid(form)
 
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
+
+		if self.object.usuario == request.user and not request.user.perfil.gestiona_pedidos:
+			return redirect('ver_pedido', self.object.id)		
+
 		if self.object.estado != 2 and self.object.estado != 3:
 			return redirect('ver_pedido', self.object.id)
-			
-		return self.guardar()
+
+		return super(PedidoUpdateView, self).get(request, *args, **kwargs)

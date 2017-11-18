@@ -3,7 +3,7 @@
     <thead>
         <tr>                        
             <th>Cantidad</th>                        
-            <th>Producto</th>
+            <th>Producto</th>            
             <th>Eliminar?</th>                        
         </tr>
     </thead>
@@ -13,7 +13,7 @@
         {{ form.id }}                                
         <tr class="inline {{ formset.prefix }}">            
             <td class="col-xs-2">
-                {{ form.cantidad|add_class:"form-control" }}{{ form.cantidad.errors }}
+                {{ form.cantidad_pedida|add_class:"form-control" }}{{ form.cantidad_pedida.errors }}
             </td>
             <td>
                 {{ form.producto|add_class:"form-control" }}{{ form.producto.errors }}

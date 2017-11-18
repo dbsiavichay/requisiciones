@@ -6,7 +6,6 @@ from .models import ProductoLog
 @receiver(post_save, sender=ProductoLog)
 def afectar_stock(sender, instance, created, raw, update_fields, **kwargs):    
     if created:
-    	producto = instance.producto
-    	if instance.tipo == 1:    		
-    		producto.stock = producto.stock + instance.cantidad if producto.stock else instance.cantidad
-    		producto.save()
+		producto = instance.producto    	
+		producto.stock = producto.stock + instance.cantidad if producto.stock else instance.cantidad
+		producto.save()
