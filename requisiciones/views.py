@@ -99,53 +99,61 @@ class PedidoDetailView(DetailView):
 			return redirect('pedidos')
 		return super(PedidoDetailView, self).get(request, *args, **kwargs)
 
-class BasePedidoUpdateView(UpdateView):
+class CancelarPedidoUpdateView(UpdateView):
 	model = Pedido
 	fields = ()
+	estado = 10
 	success_url = reverse_lazy('pedidos')
-	estado = 1
 
 	def post(self, request, *args, **kwargs):
 		return redirect(self.get_success_url())
-
-	def guardar(self):
-		self.object.estado = self.estado
-		self.object.save()
-		return redirect('ver_pedido', self.object.id)
-
-class CancelarPedidoUpdateView(BasePedidoUpdateView):
-	estado = 10
 
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		if self.object.usuario != request.user:
 			return redirect('pedidos')
 		if self.object.estado > 2:
-			return redirect('ver_pedido', self.object.id)
-			
-		return self.guardar()
+			return redirect('ver_pedido', self.object.id)			
+		self.object.estado = self.estado
+		self.object.save()
+		return redirect('ver_pedido', self.object.id)
 
-class ProcesarPedidoUpdateView(BasePedidoUpdateView):
-	estado = 3
+class ProcesarNegarBaseView(UpdateView):
+	model = Pedido
+	fields = ('nota',)
+	success_url = reverse_lazy('pedidos')
+	estado = 1
 
 	def get(self, request, *args, **kwargs):
+		return redirect(self.get_success_url())
+
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		self.object.estado = self.estado 
+		self.object.save()
+		return redirect('ver_pedido', self.object.id)
+
+class ProcesarPedidoUpdateView(ProcesarNegarBaseView):
+	estado = 3
+
+	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		if self.object.estado != 2:
 			return redirect('ver_pedido', self.object.id)
 			
-		return self.guardar()
+		return super(ProcesarNegarBaseView, self).post(request, *args, **kwargs)
 
-class NegarPedidoUpdateView(BasePedidoUpdateView):	
+class NegarPedidoUpdateView(ProcesarNegarBaseView):
 	estado = 4
 
-	def get(self, request, *args, **kwargs):
+	def post(self, request, *args, **kwargs):
 		self.object = self.get_object()
 		if self.object.estado != 2 and self.object.estado != 3:
 			return redirect('ver_pedido', self.object.id)
 			
-		return self.guardar()
+		return super(ProcesarNegarBaseView, self).post(request, *args, **kwargs)
 
-class EntregarPedidoUpdateView(PedidoUpdateView):		
+class EntregarPedidoUpdateView(PedidoUpdateView):
 	formset_class = EntregarLineaPedidoInlineFormSet
 	template_name = 'requisiciones/pedido_entregar.html'
 

@@ -1,4 +1,5 @@
 {% load widget_tweaks %}
+{% load ui_components %}
 <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data" novalidate>
     {% csrf_token %}    
     <table class="table table-striped">
@@ -7,8 +8,7 @@
                 <th>Cantidad</th>                        
                 <th>Producto</th>            
                 <th>Existencias</th>            
-                <th>Cantidad a entregar</th>                        
-                <th>Observación</th>                        
+                <th>Cantidad a entregar</th>
             </tr>
         </thead>
         <tbody>
@@ -27,14 +27,13 @@
                 </td>
                 <td>
                     {{ form.cantidad_recibida|add_class:"form-control" }}{{ form.cantidad_recibida.errors }}
-                </td>
-                <td>
-                    {{ form.observacion|add_class:"form-control" }}
-                </td>
+                </td>                
             </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    {% ui_input form.nota %}
 
     <button type="submit" class="btn btn-info">
       <i class="fa fa-check"></i> Entregar

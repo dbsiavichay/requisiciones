@@ -14,18 +14,18 @@
 		          	Listado
 		        </h4>
 		        <a href="{% url 'crear_pedido' %}" class="btn btn-sm btn-primary pull-right">
-		          	<i class="fa fa-plus-circle"></i> Realizar pedido
+		          	<i class="fa fa-plus"></i> Realizar pedido
 		        </a>
 		        {% include 'includes/pagination.html' %}
 		    </div>
 		    <!-- Fin de encabezado -->
 		    {% ui_table obj in object_list %}		    	
 		    	{{ 'Codigo' }} {% if user.perfil.gestiona_pedidos %} {{ 'Usuario' }} {% endif %}
-		    	{{ 'Fecha' }} {{ 'Estado' }} {{ 'Observación' }} {{ 'Detalle' }}
+		    	{{ 'Fecha' }} {{ 'Estado' }} {{ 'Nota' }} {{ 'Detalle' }}
 		    {% body %}
 		    	{{ obj.id }} {% if user.perfil.gestiona_pedidos %} {{ obj.usuario.get_full_name }} {% endif %}
 		    	{{obj.fecha}} {{obj.get_estado}} 
-		    	{% if obj.observacion %} {{ obj.observacion }} {% else %} {{ '' }} {% endif %}
+		    	{% if obj.nota %} {{ obj.nota }} {% else %} {{ '' }} {% endif %}
 		    	{% ui_button obj 'xs' 'search' %}
 		    {% endui_table %}	    	
 			{% include 'includes/pagination.html' %}

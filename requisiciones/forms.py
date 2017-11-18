@@ -7,7 +7,10 @@ from .models import *
 class PedidoForm(ModelForm):
     class Meta:
         model = Pedido
-        fields = ('estado',)
+        fields = ('nota','estado',)
+        widgets = {
+            'nota': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
+        }
 
     def __init__(self, *args, **kwargs):
         super(PedidoForm, self).__init__(*args, **kwargs)

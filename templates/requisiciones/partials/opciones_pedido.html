@@ -12,13 +12,13 @@
     {% endif %}    
 
     {% if user.perfil.gestiona_pedidos and pedido.estado == 2 or pedido.estado == 3 %}                
-    <a href="{% url 'negar_pedido' pedido.id %}" class="btn btn-sm btn-danger pull-right">
+    <a id="btn-negar" href="{% url 'negar_pedido' pedido.id %}" class="btn btn-sm btn-danger pull-right">
         <i class="fa fa-close"></i> Negar
     </a>
     {% endif %}
 
     {% if user.perfil.gestiona_pedidos and pedido.estado == 2 %}                
-    <a href="{% url 'procesar_pedido' pedido.id %}" class="btn btn-sm btn-success pull-right">
+    <a id="btn-procesar" href="{% url 'procesar_pedido' pedido.id %}" class="btn btn-sm btn-success pull-right">
         <i class="fa fa-spinner"></i> Procesar
     </a>
     {% endif %}
@@ -30,6 +30,6 @@
     {% endif %} 
 
     <a href="{% url 'crear_pedido' %}" class="btn btn-sm btn-primary pull-right">
-        <i class="fa fa-plus"></i> Crear
+        <i class="fa fa-plus"></i> Realizar pedido
     </a>                
 {% endif %}

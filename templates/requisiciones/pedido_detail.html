@@ -25,23 +25,39 @@
                 {% if user.perfil.gestiona_pedidos %} {{ 'Existensias' }} {% endif %}
                 {% if linea.cantidad_recibida %}
                 {{ 'Cantidad entregada' }}
-                {% endif %}
-                {% if linea.cantidad_recibida %}
-                {{ 'Observación' }}
-                {% endif %}
+                {% endif %}                
             {% body %}
                 {{ linea.cantidad_pedida }} {{ linea.producto }}                
                 {% if user.perfil.gestiona_pedidos %} {{ linea.producto.stock }}  {% endif %}
                 {% if linea.cantidad_recibida %}
                 {{ linea.cantidad_recibida }} 
-                {% endif %}
-                {% if linea.cantidad_recibida and linea.observacion %}
-                {{ linea.observacion }} 
-                {% else %} 
-                {{ '' }} 
-                {% endif %}
+                {% endif %}                
             {% endui_table %}
+            <p><strong>Nota:</strong> {{ object.nota }}</p>
         </div>
     </div>
 </div>
+{% include 'requisiciones/modals/gestion_pedido_modal.html' %}
 {% endblock%}
+{% block js %}
+<script type="text/javascript">
+    $(function () {
+        $('#btn-procesar').on('click', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            $('#form').attr('action', url);
+            $('button.negar').hide();
+            $('button.procesar').show();
+            $('#gestion_modal').modal('show');
+        });
+        $('#btn-negar').on('click', function(e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            $('#form').attr('action', url);
+            $('button.procesar').hide();
+            $('button.negar').show();
+            $('#gestion_modal').modal('show');
+        });
+    });
+</script>
+{% endblock %}

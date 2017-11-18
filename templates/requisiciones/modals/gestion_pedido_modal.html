@@ -1,0 +1,32 @@
+<div id="gestion_modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Gestión de pedidos</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form" class="form-horizontal" action="" method="POST" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}                    
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label" for="id_nota">Nota general</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="nota" id="id_nota" class="form-control">
+                        </div>
+                        
+                    </div>                                    
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" form="form" class="btn btn-danger pull-right negar">
+                    <i class="fa fa-close"></i> Negar pedido
+                </button>
+                <button type="submit" form="form" class="btn btn-success pull-right procesar">
+                    <i class="fa fa-spinner"></i> Procesar pedido
+                </button>                
+                            
+            </div>
+        </div>
+    </div>
+</div>

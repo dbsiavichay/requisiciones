@@ -22,7 +22,7 @@ class Pedido(models.Model):
 
 	fecha = models.DateTimeField(auto_now_add=True)
 	estado = models.PositiveSmallIntegerField(choices=ESTADO_CHOICES, default=1)
-	nota = models.TextField(blank=True, null=True)
+	nota = models.TextField(blank=True, null=True, verbose_name='nota general')
 	usuario = models.ForeignKey('auth.User')
 
 	def __str__(self):
