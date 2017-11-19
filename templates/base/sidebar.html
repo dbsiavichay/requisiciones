@@ -21,13 +21,14 @@
                     <span>Home</span>
                 </a>
             </li>
-
+            {% if user.is_staff %}
             <li class="sub-menu">
                 <a href="/admin/" >
                     <i class="fa fa-cog"></i>
                     <span>Administración</span>
                 </a>              
             </li>
+            {% endif %}
 
             {% if user.perfil.gestiona_pedidos %}
             <li class="sub-menu">

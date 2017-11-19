@@ -7,7 +7,9 @@
         <div class="content-panel">                        
             <div class="col-md-6 profile-text">
                 <h3>{{ perfil.usuario.get_full_name }}</h3>
+                {% if user.is_staff %}
                 <h6>Superadministrador</h6>
+                {% endif %}
                 <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC.</p>
                 <br>
                 <p>
