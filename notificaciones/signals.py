@@ -17,20 +17,22 @@ def generar_notificacion(sender, instance, created, raw, update_fields, **kwargs
     if instance.estado == 1 or instance.estado==10:
         return
 
+    user = get_user()
     if instance.estado == 2:
-        mensaje = 'Ha generado un pedido.'
+        mensaje = '%s ha generado un pedido.'
     elif instance.estado == 3:
-        mensaje = 'Tu pedido esta siendo procesado.'
+        mensaje = '%s esta procesando tu pedido.'
     elif instance.estado == 4:
-        mensaje = 'Tu pedido ha sido negado.'
+        mensaje = '%s ha negado tu pedido.'
     elif instance.estado == 5:
-        mensaje = 'Tu pedido ha sido entregado.'
+        mensaje = '%s ha entregado tu pedido.'
     else:
-        mensaje = ''
+        mensaje = None
+        
+    mensaje = mensaje % user.get_full_name() if mensaje is not None else ''
 
     ctype = ContentType.objects.get_for_model(instance)
 
-    user = get_user()
     if instance.estado == 2:    
         perfiles = Perfil.objects.filter(gestiona_pedidos=True)    
         for perfil in perfiles:
