@@ -27,5 +27,5 @@ urlpatterns = [
     url(r'^requisiciones/', include('requisiciones.urls')),
     url(r'^notificaciones/', include('notificaciones.urls')),
     url(r'^admin/', admin.site.urls),    
-    url(r'^$', login_required(TemplateView.as_view(template_name='base.html')), name='home'),
+    url(r'^$', login_required(TemplateView.as_view(template_name='home.html')), name='home'),
 ]
