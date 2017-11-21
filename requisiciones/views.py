@@ -188,3 +188,26 @@ class EntregarPedidoUpdateView(PedidoUpdateView):
 			return redirect('ver_pedido', self.object.id)
 
 		return super(PedidoUpdateView, self).get(request, *args, **kwargs)
+
+class RecibirPedidoUpdateView(UpdateView):
+	model = Pedido
+	fields = ()
+	success_url = reverse_lazy('pedidos')
+	estado = 6
+
+	def get(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		if self.object.usuario != request.user:
+			if request.user.perfil.gestiona_pedidos:
+				return redirect('ver_pedido', self.object.id)
+			else:			
+				return redirect('pedidos')
+		if self.object.estado != 5:
+			return redirect('ver_pedido', self.object.id)		
+		
+		self.object.estado = self.estado
+		self.object.save()		
+		return redirect('ver_pedido', self.object.id)
+
+	def post(self, request, *args, **kwargs):
+		return redirect(self.get_success_url())

@@ -24,7 +24,7 @@
                 {{ 'Cantidad pedida' }} {{ 'Producto' }}
                 {% if user.perfil.gestiona_pedidos %} {{ 'Existensias' }} {% endif %}
                 {% if linea.cantidad_recibida %}
-                {{ 'Cantidad entregada' }}
+                {{ 'Cantidad enviada' }}
                 {% endif %}                
             {% body %}
                 {{ linea.cantidad_pedida }} {{ linea.producto }}                

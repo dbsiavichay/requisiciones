@@ -12,12 +12,14 @@ class Pedido(models.Model):
 		ordering = ['-fecha']
 	ESTADO_CHOICES = (
 		(1, 'Borrador'),(2, 'Generado'),(3, 'En proceso'),
-		(4, 'Negado'),(5, 'Entregado'),(10, 'Cancelado'),
+		(4, 'Negado'),(5, 'Enviado'),(6, 'Recibido'),
+		(10, 'Cancelado'),
 	)
 
 	ESTADO_LABELS = (
 		(1, 'default'),(2, 'primary'),(3, 'success'),
-		(4, 'danger'),(5, 'info'), (10, 'danger'),
+		(4, 'danger'),(5, 'info'), (6, 'warning'),
+		(10, 'danger'),
 	)
 
 	fecha = models.DateTimeField(auto_now_add=True)

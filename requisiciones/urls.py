@@ -13,4 +13,5 @@ urlpatterns = [
 	url(r'^pedido/(?P<pk>\d+)/procesar/$', gestiona_pedidos_required(ProcesarPedidoUpdateView.as_view()), name='procesar_pedido'),		
 	url(r'^pedido/(?P<pk>\d+)/negar/$', gestiona_pedidos_required(NegarPedidoUpdateView.as_view()), name='negar_pedido'),		
 	url(r'^pedido/(?P<pk>\d+)/entregar/$', gestiona_pedidos_required(EntregarPedidoUpdateView.as_view()), name='entregar_pedido'),		
+	url(r'^pedido/(?P<pk>\d+)/recibir/$', login_required(RecibirPedidoUpdateView.as_view()), name='recibir_pedido'),		
 ]

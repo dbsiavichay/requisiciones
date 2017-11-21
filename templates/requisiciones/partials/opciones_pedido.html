@@ -8,7 +8,7 @@
     {% if user.perfil.gestiona_pedidos %}
         {% if pedido.estado == 2 or pedido.estado == 3 %}                
         <a href="{% url 'entregar_pedido' pedido.id %}" class="btn btn-sm btn-info pull-right">
-            <i class="fa fa-check"></i> Entregar
+            <i class="fa fa-check"></i> Enviar
         </a>    
         
         <a id="btn-negar" href="{% url 'negar_pedido' pedido.id %}" class="btn btn-sm btn-danger pull-right">
@@ -23,6 +23,11 @@
         {% endif %}
     {% endif %}
 
+    {% if pedido.estado == 5 and pedido.usuario == user %}
+    <a href="{% url 'recibir_pedido' pedido.id %}" class="btn btn-sm btn-warning pull-right">
+        <i class="fa fa-heart"></i> Recibir
+    </button>
+    {% endif %}
     
                 
     {% if pedido.estado == 1 %}
