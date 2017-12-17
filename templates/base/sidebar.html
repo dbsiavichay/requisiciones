@@ -52,6 +52,13 @@
                     <i class="fa fa-heart"></i>
                     <span>Requisiciones</span>
                 </a>
+                {% if user.perfil.gestiona_pedidos %}
+                <ul class="sub">                    
+                    <li {% if 'lugar' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'lugares' %}">Lugares</a>
+                    </li>                    
+                </ul>
+                {% endif %}
                 <ul class="sub">                    
                     <li {% if 'pedido' in request.path %} class="active" {% endif %}>
                         <a href="{% url 'pedidos' %}">Pedidos</a>

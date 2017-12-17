@@ -1,0 +1,11 @@
+{% load ui_components %}
+<form class="form-horizontal" action="" method="POST" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    
+    {% ui_input form.nombre %}            
+
+    <button type="submit" value="Guardar" class="btn btn-primary">
+      <i class="fa fa-check"></i> Guardar
+    </button>
+    <a href="{% url 'lugares' %}" class="btn btn-link">Regresar</button>
+</form>

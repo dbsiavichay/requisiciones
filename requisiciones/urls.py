@@ -4,6 +4,11 @@ from autenticacion.perms import gestiona_pedidos_required
 from .views import *
 
 urlpatterns = [
+	url(r'^lugares/$', gestiona_pedidos_required(LugarListView.as_view()), name='lugares'),    	
+	url(r'^lugar/crear/$', gestiona_pedidos_required(LugarCreateView.as_view()), name='crear_lugar'),
+	url(r'^lugar/(?P<pk>\d+)/editar/$', gestiona_pedidos_required(LugarUpdateView.as_view()), name='editar_lugar'),	
+	url(r'^lugar/(?P<pk>\d+)/eliminar/$', gestiona_pedidos_required(LugarDeleteView.as_view()), name='eliminar_lugar'),    	
+
 	url(r'^pedidos/$', login_required(PedidoListView.as_view()), name='pedidos'),    	
 	url(r'^pedido/crear/$', login_required(PedidoCreateView.as_view()), name='crear_pedido'),    	
 	url(r'^pedido/(?P<pk>\d+)/editar/$', login_required(PedidoUpdateView.as_view()), name='editar_pedido'),		

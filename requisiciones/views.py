@@ -9,6 +9,24 @@ from inventario.models import ProductoLog
 from .forms import *
 from .models import *
 
+class LugarListView(PaginationMixin, ListView):
+	paginate_by=10
+	model = Lugar
+
+class LugarCreateView(CreateView):
+	model = Lugar
+	fields = '__all__'
+	success_url = reverse_lazy('lugares')
+
+class LugarUpdateView(UpdateView):
+	model = Lugar
+	fields = '__all__'
+	success_url = reverse_lazy('lugares')
+
+class LugarDeleteView(DeleteView):
+	model = Lugar
+	success_url = reverse_lazy('lugares')
+
 class PedidoListView(PaginationMixin, ListView):
 	paginate_by=10
 	model = Pedido

@@ -7,6 +7,16 @@ from django.utils.html import format_html
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 @python_2_unicode_compatible
+class Lugar(models.Model):
+	nombre = models.CharField(max_length=100)
+
+	def __str__(self):
+		return self.nombre
+
+	def get_absolute_url(self):
+		return reverse_lazy('editar_lugar', args=[self.id])		
+
+@python_2_unicode_compatible
 class Pedido(models.Model):
 	class Meta:
 		ordering = ['-fecha']
@@ -25,6 +35,7 @@ class Pedido(models.Model):
 	fecha = models.DateTimeField(auto_now_add=True)
 	estado = models.PositiveSmallIntegerField(choices=ESTADO_CHOICES, default=1)
 	nota = models.TextField(blank=True, null=True, verbose_name='nota general')
+	lugar = models.ForeignKey(Lugar, verbose_name='entregar en')
 	usuario = models.ForeignKey('auth.User')
 
 	def __str__(self):

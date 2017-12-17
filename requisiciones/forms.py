@@ -7,7 +7,7 @@ from .models import *
 class PedidoForm(ModelForm):
     class Meta:
         model = Pedido
-        fields = ('nota','estado',)
+        fields = ('nota','lugar','estado',)
         widgets = {
             'nota': forms.Textarea(attrs={'cols': 40, 'rows': 3}),
         }
