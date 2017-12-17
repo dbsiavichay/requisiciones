@@ -9,30 +9,43 @@
                 <h3>{{ perfil.usuario.get_full_name }}</h3>
                 {% if user.is_staff %}
                 <h6>Superadministrador</h6>
+                {% elif user.perfil.gestiona_pedidos %}
+                <h6>Secretario/a</h6>
+                {% else %}
+                <h6>Operador/a</h6>
                 {% endif %}
-                <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC.</p>
+                <!-- <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC.</p> -->
                 <br>
                 <p>
                     <button class="btn btn-theme"><i class="fa fa-envelope"></i> Enviar mensaje</button>
                 </p>
-            </div>
+            </div>        
             
             <div class="col-md-6 centered">
                 <div class="profile-pic">
                     <p>
                         {% if perfil.imagen %}
-                        <img src="{{ perfil.image.url }}" class="img-circle" width="120">
+                        <img src="{{ perfil.imagen.url }}" class="img-circle" width="120">
                         {% else %}
                         <img src="{% static 'assets/img/default-user.png' %}" class="img-circle" width="120">
                         {% endif %}
                     </p>
                     <p>
                         {% if perfil.usuario == user %}
-                        <button class="btn btn-warning">
-                            <i class="fa fa-check"></i> Cambiar imagen
-                        </button>
+                        <form class="form-horizontal" action="{% url 'editar_perfil' perfil.id %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" id="imagen" name="imagen" class="hidden">
+                            <label class="btn btn-warning btn-file" for="imagen">
+                                <span class="fa fa-picture-o"></span>
+                                <span class="imagen">Cambiar imagen</span>
+                            </label>
+                            
+
+                            <button type="submit" value="Guardar" class="btn btn-primary">
+                              <i class="fa fa-check"></i> Guardar
+                            </button>                            
+                        </form>                        
                         {% endif %}
-                        
                     </p>
                 </div>
             </div>
@@ -40,3 +53,11 @@
     </div>    
 </div>
 {% endblock%}
+{% block js %}
+<script type="text/javascript">
+    $(document).on('change', ':file', function() {        
+        var label = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');        
+        $('.imagen').text(label)
+    });
+</script>
+{% endblock %}

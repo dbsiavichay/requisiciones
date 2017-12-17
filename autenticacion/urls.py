@@ -7,7 +7,9 @@ from .views import *
 urlpatterns = [	
     url(r'^ingresar/$', auth_views.LoginView.as_view(template_name='autenticacion/ingresar.html'), name='ingresar'),
     url(r'^salir/$', login_required(auth_views.logout_then_login), name='salir'),
+
     url(r'^perfil/(?P<username>[\w.@+-]+)/$', login_required(PerfilDetailView.as_view()), name='perfil'),
+    url(r'^perfil/(?P<pk>\d+)/editar/$', login_required(PerfilUpdateView.as_view()), name='editar_perfil'),
     url(
     	r'^cambiar-password/$', auth_views.password_change, 
     	{

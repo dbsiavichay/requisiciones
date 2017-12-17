@@ -139,6 +139,10 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+#Media config
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # Login config
 LOGIN_URL = reverse_lazy('ingresar')
 LOGIN_REDIRECT_URL = reverse_lazy('home')

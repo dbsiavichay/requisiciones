@@ -7,7 +7,7 @@
         	<p class="centered">
                 <a href="{% url 'perfil' user.username %}">
                     {% if user.perfil.imagen %}
-                    <img src="{{ user.perfil.image.url }}" class="img-circle" width="60">
+                    <img src="{{ user.perfil.imagen.url }}" class="img-circle" width="60">
                     {% else %}
                     <img src="{% static 'assets/img/default-user.png' %}" class="img-circle" width="60">
                     {% endif %}
