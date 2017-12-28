@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from django.http import HttpResponse
 from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from pure_pagination.mixins import PaginationMixin
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from inventario.models import ProductoLog
 from .forms import *
 from .models import *
+from .reports import get_pedido_por_estado_pdf
 
 class LugarListView(PaginationMixin, ListView):
 	paginate_by=10
@@ -229,3 +231,21 @@ class RecibirPedidoUpdateView(UpdateView):
 
 	def post(self, request, *args, **kwargs):
 		return redirect(self.get_success_url())
+
+class ReporteView(TemplateView):
+	template_name = 'requisiciones/reporte.html'
+
+	def get_context_data(self, **kwargs):
+		context = super(ReporteView, self).get_context_data(**kwargs)
+		context['estados'] = Pedido.ESTADO_CHOICES
+
+		return context
+
+def pedido_por_estado_view(request, estado):    
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'inline; filename=reporte.pdf'
+	
+	pdf = get_pedido_por_estado_pdf(estado)
+
+	response.write(pdf)
+	return response

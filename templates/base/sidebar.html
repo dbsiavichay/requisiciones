@@ -64,6 +64,13 @@
                         <a href="{% url 'pedidos' %}">Pedidos</a>
                     </li>                    
                 </ul>
+                {% if user.perfil.gestiona_pedidos %}
+                <ul class="sub">                    
+                    <li {% if 'reporte' in request.path %} class="active" {% endif %}>
+                        <a href="{% url 'reporte_pedido' %}">Reportes</a>
+                    </li>                    
+                </ul>
+                {% endif %}
             </li>
             <li class="sub-menu">
                 <a {% if 'autenticacion' in request.path %} class="active" {% endif %} href="#" >

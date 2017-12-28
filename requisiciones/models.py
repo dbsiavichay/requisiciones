@@ -20,6 +20,7 @@ class Lugar(models.Model):
 class Pedido(models.Model):
 	class Meta:
 		ordering = ['-fecha']
+
 	ESTADO_CHOICES = (
 		(1, 'Borrador'),(2, 'Generado'),(3, 'En proceso'),
 		(4, 'Negado'),(5, 'Enviado'),(6, 'Recibido'),
@@ -41,12 +42,15 @@ class Pedido(models.Model):
 	def __str__(self):
 		return '%s | %s' % (self.id, self.usuario.get_full_name())
 
-	def get_estado(self):
+	def get_estado(self, html=True):
+		if not html:
+			return dict(self.ESTADO_CHOICES).get(self.estado)
+			
 		return format_html(
             '<span class="label label-{}">{}</span>',
             dict(self.ESTADO_LABELS).get(self.estado),
             dict(self.ESTADO_CHOICES).get(self.estado),            
-        )		
+        )
 
 	def get_absolute_url(self):
 		return reverse_lazy('ver_pedido', args=[self.id])
