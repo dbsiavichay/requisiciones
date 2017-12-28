@@ -3,6 +3,9 @@ from __future__ import unicode_literals
 from django.contrib import admin
 from .models import *
 
+class LugarAdmin(admin.ModelAdmin):
+	model = Lugar
+
 class LineaPedidoInline(admin.TabularInline):
     model = LineaPedido    
 
@@ -15,4 +18,5 @@ class PedidoAdmin(admin.ModelAdmin):
 	def get_usuario(self, obj):
 		return obj.usuario.get_full_name()
 
+admin.site.register(Lugar, LugarAdmin)
 admin.site.register(Pedido, PedidoAdmin)

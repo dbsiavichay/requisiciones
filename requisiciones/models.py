@@ -8,6 +8,10 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 @python_2_unicode_compatible
 class Lugar(models.Model):
+	class Meta:
+		verbose_name='lugar'
+		verbose_name_plural = 'lugares'
+		
 	nombre = models.CharField(max_length=100)
 
 	def __str__(self):
