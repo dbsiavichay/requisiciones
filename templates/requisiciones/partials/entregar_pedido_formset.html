@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             {{ formset.management_form }}
-            {% for form in formset %}
+            {% for form in formset %}            
             {{ form.id }}                                
             <tr class="inline {{ formset.prefix }}">            
                 <td class="col-xs-2">
@@ -32,6 +32,14 @@
             {% endfor %}
         </tbody>
     </table>
+    
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="{{ form.lugar.id_for_label }}">{{ form.lugar.label }}</label>
+        <div class="col-sm-10">
+            <input type="hidden" name="lugar" value="{{ form.lugar.value }}">
+            <input type="text" class="form-control" value="{{ form.instance.lugar}}" readonly>                            
+        </div>        
+    </div>
 
     {% ui_input form.nota %}
 

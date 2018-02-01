@@ -177,7 +177,7 @@ class EntregarPedidoUpdateView(PedidoUpdateView):
 	formset_class = EntregarLineaPedidoInlineFormSet
 	template_name = 'requisiciones/pedido_entregar.html'
 
-	def form_valid(self, form):
+	def form_valid(self, form):		
 		formset = self.get_lineapedido_formset()
 		
 		if formset.is_valid():						
@@ -196,7 +196,7 @@ class EntregarPedidoUpdateView(PedidoUpdateView):
 
 			return redirect(self.get_success_url())
 		else:
-			return self.form_invalid(form)
+			return self.form_invalid(form)	
 
 	def get(self, request, *args, **kwargs):
 		self.object = self.get_object()

@@ -47,7 +47,7 @@
                         <a href="{% url 'ver_notificacion' object.id %}">
                             <span class="photo">
                                 {% if object.remitente.perfil.imagen %}
-                                <img alt="avatar" src="{{ user.perfil.imagen.url }}">
+                                <img alt="avatar" src="{{ object.remitente.perfil.imagen.url }}">
                                 {% else %}
                                 <img alt="avatar" src="{% static 'assets/img/default-user.png' %}">
                                 {% endif %}
