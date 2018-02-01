@@ -27,7 +27,7 @@ class Pedido(models.Model):
 
 	ESTADO_CHOICES = (
 		(1, 'Borrador'),(2, 'Generado'),(3, 'En proceso'),
-		(4, 'Negado'),(5, 'Enviado'),(6, 'Recibido'),
+		(4, 'Negado'),(5, 'Despachado'),(6, 'Recibido'),
 		(10, 'Cancelado'),
 	)
 

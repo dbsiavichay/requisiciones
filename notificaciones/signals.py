@@ -25,7 +25,7 @@ def generar_notificacion(sender, instance, created, raw, update_fields, **kwargs
     elif instance.estado == 4:
         mensaje = '%s ha negado tu pedido.'
     elif instance.estado == 5:
-        mensaje = '%s ha entregado tu pedido.'
+        mensaje = '%s ha despachado tu pedido.'
     elif instance.estado == 6:
         mensaje = '%s ha recibido su pedido.'
     else:
