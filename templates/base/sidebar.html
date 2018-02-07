@@ -7,9 +7,9 @@
         	<p class="centered">
                 <a href="{% url 'perfil' user.username %}">
                     {% if user.perfil.imagen %}
-                    <img src="{{ user.perfil.imagen.url }}" class="img-circle" width="60">
+                    <img src="{{ user.perfil.imagen.url }}" class="img-circle avatar" width="60">
                     {% else %}
-                    <img src="{% static 'assets/img/default-user.png' %}" class="img-circle" width="60">
+                    <img src="{% static 'assets/img/default-user.png' %}" class="img-circle avatar" width="60">
                     {% endif %}
                 </a>
                 
@@ -71,6 +71,12 @@
                     </li>                    
                 </ul>
                 {% endif %}
+            </li>
+            <li class="sub-menu">
+                <a href="{% url 'chat' %}" >
+                    <i class="fa fa-comment"></i>
+                    <span>Chat</span>
+                </a>              
             </li>
             <li class="sub-menu">
                 <a {% if 'autenticacion' in request.path %} class="active" {% endif %} href="#" >

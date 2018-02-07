@@ -37,3 +37,15 @@ class Notificacion(models.Model):
 	def get_absolute_url(self):
 		return reverse_lazy('ver_notificacion', args=[self.id])
 
+@python_2_unicode_compatible
+class Mensaje(models.Model):
+	class Meta:		
+		ordering = ['-fecha_creacion',]
+
+	remitente = models.ForeignKey('auth.User', related_name='envia')
+	receptor = models.ForeignKey('auth.User', related_name='recibe')
+	mensaje = models.TextField()
+	fecha_creacion = models.DateTimeField(auto_now_add=True)	
+
+	def __str__(self):
+		return self.mensaje	

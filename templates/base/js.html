@@ -5,6 +5,7 @@
 <script src="{% static 'plugins/jquery/jquery.nicescroll.js' %}"></script>
 <script src="{% static 'plugins/jquery/jquery.dcjqaccordion.2.7.js' %}"></script>
 <script src="{% static 'plugins/jquery/jquery.scrollTo.min.js' %}"></script>
+<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
 <!-- <script src="{% static 'assets/js/jquery.ui.touch-punch.min.js' %}"></script> -->
 
 <!--common script for all pages-->
@@ -17,7 +18,7 @@
 	var socket = io.connect('http://localhost:8002');
 
 	socket.on('data', function () {
-		$.get('/autenticacion/perfil/alguien/', function (data) {
+		$.get('/autenticacion/perfil/alguien/', function (data) {			
 			socket.emit('data', data);			
 		})
 	})
@@ -44,6 +45,15 @@
 				// settings
 				type: 'success'
 			});			
+		});
+	});
+
+	socket.on('chat', function (data) {		
+		$.notify({			
+			message: data.remitente.nombre + ' te ha enviado un mensaje.'
+		},{
+			// settings
+			type: 'success'
 		});
 	});		
 </script>

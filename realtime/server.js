@@ -11,6 +11,11 @@ client.connect()
 client.query("LISTEN addnotificacion");
 client.handler = false;
 
+
+var mensaje = require('./db/mensaje');
+
+//mensaje.chat_list(1,3);
+
 var clientes = {}
 
 io.sockets.on('connection', function (socket) {				
@@ -29,16 +34,26 @@ io.sockets.on('connection', function (socket) {
 
 	socket.emit('data', {});
 
-	socket.on('data', function (data) {	
-		var receptor = data['user_id']	
-		this['receptor'] = receptor		
-		clientes[receptor] = {
+	socket.on('data', function (data) {		
+		var id = data['user_id']
+		this['user'] = data		
+		clientes[id] = {
 			'socket': this,			
 		}		
+		socket.emit('ready-chat', {});
+	});
+
+	socket.on('chat', (data) => {				
+		receptor = data['receptor_id'];
+		if (receptor in clientes) { 
+			data['remitente'] = socket.user;
+			clientes[receptor].socket.emit('chat', data);
+		}
 	});
 
 	socket.on('disconnect', function () {
-		delete clientes[this['receptor']];		
+		delete clientes[this['user']['user_id']];
+		console.log('Usuarios conectados: ' + clientes.length)		
 		console.log('Socket: ' + this['id'] + ' se ha desconectado.')		
 	});
 });

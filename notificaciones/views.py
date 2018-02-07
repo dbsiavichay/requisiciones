@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from pure_pagination import PaginationMixin
 from django.views.generic import ListView, DetailView
 from .models import *
+from autenticacion.models import Perfil
 
 class NotificacionListView(PaginationMixin, ListView):
 	model = Notificacion
@@ -49,3 +50,12 @@ class NotificationDetailView(DetailView):
 		self.object.save()
 		#fecha lectura		
 		return redirect(self.object.get_objecto().get_absolute_url())
+
+class ChatListView(ListView):
+	model = Perfil
+	template_name = 'notificaciones/chat.html'
+
+	def get_queryset(self):
+		queryset = super(ChatListView, self).get_queryset()
+		queryset = queryset.exclude(usuario=self.request.user)
+		return queryset

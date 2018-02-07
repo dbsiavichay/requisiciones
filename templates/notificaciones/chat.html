@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load ui_components %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/chat.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main_section">
+	<div id="app" class="chat_container">
+	    <div class="col-sm-3 chat_sidebar">
+			<div class="row">
+		        <div id="custom-search-input">
+		           <div class="input-group col-md-12">
+			            <input type="text" class="  search-query form-control" placeholder="Búsqueda" />
+			            <button class="btn btn-danger" type="button"><span class=" fa fa-search"></span></button>
+		           </div>
+		        </div>
+	        
+		        <div class="member_list">
+			        <ul class="list-unstyled">
+			        	{% for perfil in object_list %}
+			            <li class="left clearfix perfil" data-id="{{ perfil.id }}">
+			                <span class="chat-img pull-left">
+			                	{% if perfil.imagen %}
+                                <img alt="avatar" class="img-circle imagen" src="{{ perfil.imagen.url }}">
+                                {% else %}
+                                <img alt="avatar" class="img-circle imagen" src="{% static 'assets/img/default-user.png' %}">
+                                {% endif %}			                	
+			                </span>
+			                <div class="chat-body clearfix">
+			                    <div class="header_sec">
+			                       <strong class="primary-font nombre">{{ perfil.usuario.get_full_name }}</strong>
+			                       <span class="badge pull-right hide">0</span>
+			                    </div>			                    
+			                </div>
+			            </li>
+			            {% endfor %}
+			        </ul>
+		        </div>
+	    	</div>
+	    </div>
+	    <!--chat_sidebar-->
+		 
+		{% verbatim %}
+	    <div class="col-sm-9 message_section">
+			<div class="row">
+				<div class="new_message_head">
+					<strong id="chat-title">{{ perfil.nombre }}</strong>	 
+				</div>
+		 
+		 		<div class="chat_area">
+					<ul class="list-unstyled">						
+						<li v-for="mensaje in mensajes" class="left clearfix" v-bind:class="{ admin_chat : mensaje.enviado }">
+			                <span class="chat-img1" v-bind:class="[mensaje.enviado ? 'pull-right' : 'pull-left']">
+			                	<img v-bind:src="[mensaje.enviado ? yo.url : perfil.url]" alt="User Avatar" class="img-circle">
+			                </span>
+			                <div class="chat-body1 clearfix">
+			                    <p>{{ mensaje.texto }}</p>
+								<div class="chat_time" v-bind:class="[mensaje.enviado ? 'pull-right' : 'pull-left']">09:40PM</div>
+			                </div>
+				        </li>						
+					</ul>
+				</div><!--chat_area-->
+
+	      		<div class="message_write">
+		 			<textarea id="chattexto" class="form-control" placeholder="Escribe tu mensaje"></textarea>
+		 			<div class="clearfix"></div>
+					 <div class="chat_bottom">	 	
+						<a id="chatboton" href="#" class="pull-right btn btn-success disabled">Enviar</a>
+					</div>
+				</div>
+			</div>
+	    </div> <!--message_section-->
+	    {% endverbatim %}
+	</div>
+</div>
+{% endblock%}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+		el: '#app',
+		data: {
+			perfil: {
+				id: $('.perfil').first().attr('data-id'),
+		  		nombre: $('.perfil').first().find('.nombre').text(),
+		  		url: $('.perfil').first().find('.imagen').attr('src')
+			},
+			yo: {
+				url: $('.avatar').attr('src'),
+			}, 
+		  	mensajes: []	    
+		}
+	});	
+
+	
+	$('.perfil').on('click', function () {		
+		app.perfil.id = $(this).attr('data-id');	
+		app.perfil.nombre = $(this).find('.nombre').text();	
+		app.perfil.url = $(this).find('.imagen').attr('src');
+		app.mensajes = []
+	});
+
+	$('#chatboton').on('click', function (e) {
+		e.preventDefault();
+		var texto = $('#chattexto').val();
+		if (!texto) return;
+		var mensaje = {
+			receptor_id: app.perfil.id,
+			texto: texto,
+			enviado:true
+		}
+		socket.emit('chat', mensaje);
+		app.mensajes.push(mensaje);
+		$('#chattexto').val('');
+	});
+
+
+	socket.on('ready-chat', function (data) {
+		$('#chatboton').removeClass('disabled');		
+	});
+
+
+	socket.on('chat', function (data) {		
+		var remitente_id = data.remitente.user_id;
+		if (app.perfil.id == remitente_id) {
+			data.enviado = false;
+			app.mensajes.push(data);	
+		} else {
+			$('.perfil').each(function (i, elem) {
+				if ($(elem).attr('data-id') == remitente_id && app.perfil.id != remitente_id) {
+					var count = parseInt($(elem).find('.badge').text());
+					$(elem).find('.badge').text(count+1);
+					$(elem).find('.badge').removeClass('hide');
+					return;
+				}
+			});			
+		}		
+	});
+	
+</script>
+{% endblock %}

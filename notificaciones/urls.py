@@ -5,4 +5,6 @@ from .views import *
 urlpatterns = [	    
     url(r'^$', login_required(NotificacionListView.as_view()), name='notificaciones'),    
     url(r'^notificacion/(?P<pk>\d+)/$', login_required(NotificationDetailView.as_view()), name='ver_notificacion'),
+
+    url(r'^chat/$', login_required(ChatListView.as_view()), name='chat'),
 ]
