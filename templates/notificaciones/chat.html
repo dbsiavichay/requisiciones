@@ -90,11 +90,16 @@
 		  		url: $('.perfil').first().find('.imagen').attr('src')
 			},
 			yo: {
+				id: {{ user.id }},
 				url: $('.avatar').attr('src'),
 			}, 
 		  	mensajes: []	    
 		}
-	});	
+	});
+
+	var cargarChat = function () {
+		socket.emit('chat-datos', app.perfil.id);
+	}	
 
 	
 	$('.perfil').on('click', function () {		
@@ -102,6 +107,11 @@
 		app.perfil.nombre = $(this).find('.nombre').text();	
 		app.perfil.url = $(this).find('.imagen').attr('src');
 		app.mensajes = []
+		cargarChat();
+
+		var badge = $(this).find('.badge');
+		badge.text(0);
+		if (!badge.hasClass('hide')) badge.addClass('hide');		
 	});
 
 	$('#chatboton').on('click', function (e) {
@@ -120,7 +130,20 @@
 
 
 	socket.on('ready-chat', function (data) {
-		$('#chatboton').removeClass('disabled');		
+		$('#chatboton').removeClass('disabled');
+		cargarChat();
+		
+	});
+
+	socket.on('chat-datos', function (data) {
+		for (var i in data) {
+			var mensaje = {
+				receptor_id: data[i].receptor_id,
+				texto: data[i].mensaje,
+				enviado: data[i].receptor_id==app.perfil.id?true:false
+			}
+			app.mensajes.push(mensaje);
+		}
 	});
 
 
