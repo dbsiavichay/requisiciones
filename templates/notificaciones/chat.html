@@ -58,7 +58,7 @@
 			                </span>
 			                <div class="chat-body1 clearfix">
 			                    <p>{{ mensaje.texto }}</p>
-								<div class="chat_time" v-bind:class="[mensaje.enviado ? 'pull-right' : 'pull-left']">09:40PM</div>
+								<div v-bind:data-fecha="mensaje.fecha" class="chat_time" v-bind:class="[mensaje.enviado ? 'pull-right' : 'pull-left']">{{ mensaje.calendar }}</div>
 			                </div>
 				        </li>						
 					</ul>
@@ -94,12 +94,18 @@
 				url: $('.avatar').attr('src'),
 			}, 
 		  	mensajes: []	    
+		},
+		watch: {
+			mensajes : function (val) {
+				$(".chat_area").animate({ scrollTop:$(document).height() }, 'slow');
+			}
 		}
+
 	});
 
 	var cargarChat = function () {
 		socket.emit('chat-datos', app.perfil.id);
-	}	
+	}
 
 	
 	$('.perfil').on('click', function () {		
@@ -121,7 +127,9 @@
 		var mensaje = {
 			receptor_id: app.perfil.id,
 			texto: texto,
-			enviado:true
+			enviado:true,
+			fecha:moment().toString(),
+			calendar: moment().calendar()
 		}
 		socket.emit('chat', mensaje);
 		app.mensajes.push(mensaje);
@@ -135,23 +143,27 @@
 		
 	});
 
-	socket.on('chat-datos', function (data) {
+	socket.on('chat-datos', function (data) {		
 		for (var i in data) {
 			var mensaje = {
 				receptor_id: data[i].receptor_id,
 				texto: data[i].mensaje,
-				enviado: data[i].receptor_id==app.perfil.id?true:false
+				enviado: data[i].receptor_id==app.perfil.id?true:false,
+				fecha: data[i].fecha_creacion,
+				calendar: moment(data[i].fecha_creacion).calendar()
 			}
 			app.mensajes.push(mensaje);
 		}
 	});
 
 
-	socket.on('chat', function (data) {		
+	socket.on('chat', function (data) {
 		var remitente_id = data.remitente.user_id;
 		if (app.perfil.id == remitente_id) {
 			data.enviado = false;
-			app.mensajes.push(data);	
+			data.fecha = moment().toString(),
+			data.calendar = moment().calendar()
+			app.mensajes.push(data);
 		} else {
 			$('.perfil').each(function (i, elem) {
 				if ($(elem).attr('data-id') == remitente_id && app.perfil.id != remitente_id) {
@@ -163,6 +175,5 @@
 			});			
 		}		
 	});
-	
 </script>
 {% endblock %}

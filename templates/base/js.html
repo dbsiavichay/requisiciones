@@ -15,7 +15,10 @@
 <script src="{% static 'plugins/socket.io/socket.io.js' %}"></script>
 
 <script type="text/javascript">
-	var socket = io.connect('http://localhost:8002');
+	moment.locale('es');
+	var port = '8002'	
+
+	var socket = io.connect('//' + window.location.hostname + ':' + port);
 
 	socket.on('data', function () {
 		$.get('/autenticacion/perfil/alguien/', function (data) {			

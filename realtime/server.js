@@ -54,7 +54,7 @@ io.sockets.on('connection', function (socket) {
 		receptor = data['receptor_id'];
 		Mensaje.guardar(data.texto, receptor, socket.user.user_id);
 		if (receptor in clientes) { 
-			data['remitente'] = socket.user;
+			data['remitente'] = socket.user;			
 			clientes[receptor].socket.emit('chat', data);
 		}
 	});
