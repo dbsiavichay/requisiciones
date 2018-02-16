@@ -9,20 +9,52 @@
         <div class="content-panel-header">
             <h4>
             <i class="fa fa-angle-right"></i>
-            Pedidos por estado
+            Reporte de pedidos
             </h4>
         </div>
 
-        <div class="form-inline">
+        <label class="radio-inline">
+            <input type="radio" name="tipo_reporte" value="estado" checked> Por estado
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="tipo_reporte" value="fecha"> Por fechas
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="tipo_reporte" value="empleado"> Por empleado
+        </label>
+        <hr>
+        <div id="estado" class="form-inline">
             <div class="form-group">          
-            <select id="estados" class="form-control">
-                <option value="">----- Estado -----</option>
-                {% for id, valor in estados %}
-                <option value="{{ id }}">{{ valor }}</option>
-                {% endfor %}
-            </select>            
+                <select id="estados" class="form-control">
+                    <option value="">----- Estado -----</option>
+                    {% for id, valor in estados %}
+                    <option value="{{ id }}">{{ valor }}</option>
+                    {% endfor %}
+                </select>            
             </div>        
             <button id="btnGenerar" class="btn btn-danger">Generar</button>
+        </div>
+        <div id="fecha" class="form-inline">
+            Desde
+            <div class="form-group">          
+                <input class="form-control" type="date" id="fecha1">
+            </div>        
+            Hasta
+            <div class="form-group">          
+                <input class="form-control" type="date" id="fecha2">
+            </div>        
+            <button id="btnGenerarFecha" class="btn btn-danger">Generar</button>
+        </div>
+        <div id="empleado" class="form-inline">
+            <div class="form-group">          
+                <select id="usuarios" class="form-control">
+                    <option value="">----- Usuarios -----</option>
+                    {% for usuario in usuarios %}
+                    <option value="{{ usuario.id }}">{{ usuario.get_full_name }}</option>
+                    {% endfor %}
+                </select>            
+            </div>        
+            <button id="btnGenerarUsuario" class="btn btn-danger">Generar</button>
         </div>
         <iframe class="content-panel" style="height:80%;">
 	        <p>Your browser does not support iframes.</p>
@@ -34,12 +66,38 @@
 
 {% block js %}
 <script type="text/javascript">
-    $(function () {        
+    $(function () {
+        $('#fecha').hide();
+        $('#empleado').hide();
+
+        $('input[name=tipo_reporte]').on('change', function () {
+            var selector = '#' + $(this).val();
+            $('.form-inline').hide();
+            $(selector).show();
+        });
+
         $('#btnGenerar').on('click', function () {
             var estado = $('#estados').val();            
             if(!estado) return;
 
             var url = '/requisiciones/reporte/'+ estado + '/estado/';
+            $('iframe').attr('src', url);
+        });
+
+        $('#btnGenerarFecha').on('click', function () {
+            var fecha1 = $('#fecha1').val();            
+            var fecha2 = $('#fecha2').val();            
+            if(!fecha1 || !fecha2) return;
+            
+            var url = '/requisiciones/reporte/'+ fecha1 + '/' + fecha2 +'/rango/';
+            $('iframe').attr('src', url);
+        });
+
+        $('#btnGenerarUsuario').on('click', function () {
+            var usuario = $('#usuarios').val();            
+            if(!usuario) return;
+
+            var url = '/requisiciones/reporte/'+ usuario + '/usuario/';
             $('iframe').attr('src', url);
         });
     });

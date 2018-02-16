@@ -10,7 +10,7 @@ class ProductoAdmin(admin.ModelAdmin):
 	list_display = ('nombre', 'stock', 'categoria')
 
 class ProductoLogAdmin(admin.ModelAdmin):
-	list_display = ('tipo', 'producto', 'cantidad', 'fecha', 'pedido')
+	list_display = ('tipo', 'producto', 'cantidad', 'fecha', 'get_pedido')
 
 admin.site.register(Categoria, CategoriaAdmin)
 admin.site.register(Producto, ProductoAdmin)

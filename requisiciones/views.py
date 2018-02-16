@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from datetime import datetime
 from django.http import HttpResponse
 from django.db.models import Q
 from django.shortcuts import render, redirect
@@ -7,9 +8,10 @@ from django.urls import reverse_lazy
 from pure_pagination.mixins import PaginationMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 from inventario.models import ProductoLog
+from django.contrib.auth.models import User
 from .forms import *
 from .models import *
-from .reports import get_pedido_por_estado_pdf
+from .reports import get_pedido_por_estado_pdf, get_pedido_por_rango_pdf, get_pedido_por_usuario_pdf
 
 class LugarListView(PaginationMixin, ListView):
 	paginate_by=10
@@ -191,7 +193,7 @@ class EntregarPedidoUpdateView(PedidoUpdateView):
 					tipo=2,
 					producto = form.instance.producto,
 					cantidad = form.cleaned_data['cantidad_recibida'] * -1,					
-					pedido = form.instance.pedido
+					pedido = form.instance.pedido.id
 				)			
 
 			return redirect(self.get_success_url())
@@ -238,6 +240,7 @@ class ReporteView(TemplateView):
 	def get_context_data(self, **kwargs):
 		context = super(ReporteView, self).get_context_data(**kwargs)
 		context['estados'] = Pedido.ESTADO_CHOICES
+		context['usuarios'] = User.objects.filter(is_active=True)
 
 		return context
 
@@ -246,6 +249,28 @@ def pedido_por_estado_view(request, estado):
 	response['Content-Disposition'] = 'inline; filename=reporte.pdf'
 	
 	pdf = get_pedido_por_estado_pdf(estado)
+
+	response.write(pdf)
+	return response
+
+def pedido_por_rango_view(request, fecha_inicial, fecha_final):    
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'inline; filename=reporte.pdf'
+
+	fecha1 = datetime.strptime(fecha_inicial, '%Y-%m-%d').date()	
+	fecha2 = datetime.strptime(fecha_final, '%Y-%m-%d').date()	
+	
+	pdf = get_pedido_por_rango_pdf(fecha1, fecha2)
+
+	response.write(pdf)
+	return response
+
+def pedido_por_usuario_view(request, usuario):    
+	response = HttpResponse(content_type='application/pdf')
+	response['Content-Disposition'] = 'inline; filename=reporte.pdf'
+	
+	user = User.objects.get(pk=usuario)
+	pdf = get_pedido_por_usuario_pdf(user)
 
 	response.write(pdf)
 	return response

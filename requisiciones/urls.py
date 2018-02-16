@@ -22,4 +22,6 @@ urlpatterns = [
 
 	url(r'^reporte/$', login_required(ReporteView.as_view()), name='reporte_pedido'),		
 	url(r'^reporte/(?P<estado>\d+)/estado/$', login_required(pedido_por_estado_view)),		
+	url(r'^reporte/(?P<fecha_inicial>\d{4}-\d{2}-\d{2})/(?P<fecha_final>\d{4}-\d{2}-\d{2})/rango/$', login_required(pedido_por_rango_view)),		
+	url(r'^reporte/(?P<usuario>\d+)/usuario/$', login_required(pedido_por_usuario_view)),		
 ]

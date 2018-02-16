@@ -42,6 +42,68 @@ def get_pedido_por_estado_pdf(estado):
 	doc.build(report,canvasmaker=NumberedCanvas,onFirstPage=get_letterhead_page,onLaterPages=get_letterhead_page)	
 	return buff.getvalue()
 
+def get_pedido_por_rango_pdf(fecha_inicial, fecha_final):
+	pedidos = Pedido.objects.filter(fecha__range=(fecha_inicial, fecha_final))
+	
+	buff = BytesIO()
+
+	doc = SimpleDocTemplate(buff,pagesize=A4,rightMargin=60, leftMargin=40, topMargin=75, bottomMargin=50,)
+	styles = getSampleStyleSheet()	
+
+	report = [
+		Paragraph("REPORTE DE PEDIDOS POR RANGO DE FECHAS", styles['Title']),
+		Paragraph("Desde: %s Hasta: %s" % (fecha_inicial, fecha_final), styles['Heading4']),
+	]
+
+	headers = ['Código','Usuario', 'Fecha','Estado', 'Lugar']
+	columns_width = [1.5*cm, 3*cm,2.3*cm,1.5*cm,4*cm, 3*cm]	
+	fields = (
+		{'name': 'id'},{'name': 'usuario.get_full_name'},{'name': 'fecha'},
+		{'name': 'get_estado', 'kwargs': {'html': False}},
+		{'name': 'lugar'},				
+	)
+	
+
+	data = get_table_data(pedidos, fields)	
+	data = get_styled_data([headers,] + data)	
+	table = Table(data, style=get_table_style(), hAlign='LEFT')	
+	
+	
+	report.append(table)
+	doc.build(report,canvasmaker=NumberedCanvas,onFirstPage=get_letterhead_page,onLaterPages=get_letterhead_page)	
+	return buff.getvalue()
+
+def get_pedido_por_usuario_pdf(usuario):
+	pedidos = Pedido.objects.filter(usuario=usuario)
+	
+	buff = BytesIO()
+
+	doc = SimpleDocTemplate(buff,pagesize=A4,rightMargin=60, leftMargin=40, topMargin=75, bottomMargin=50,)
+	styles = getSampleStyleSheet()	
+
+	report = [
+		Paragraph("REPORTE DE PEDIDOS POR USUARIO", styles['Title']),
+		Paragraph("Usuario: %s" % (usuario.get_full_name()), styles['Heading4']),
+	]
+
+	headers = ['Código','Usuario', 'Fecha','Estado', 'Lugar']
+	columns_width = [1.5*cm, 3*cm,2.3*cm,1.5*cm,4*cm, 3*cm]	
+	fields = (
+		{'name': 'id'},{'name': 'usuario.get_full_name'},{'name': 'fecha'},
+		{'name': 'get_estado', 'kwargs': {'html': False}},
+		{'name': 'lugar'},				
+	)
+	
+
+	data = get_table_data(pedidos, fields)	
+	data = get_styled_data([headers,] + data)	
+	table = Table(data, style=get_table_style(), hAlign='LEFT')	
+	
+	
+	report.append(table)
+	doc.build(report,canvasmaker=NumberedCanvas,onFirstPage=get_letterhead_page,onLaterPages=get_letterhead_page)	
+	return buff.getvalue()
+
 
 
 def get_letterhead_page(canvas, doc):
