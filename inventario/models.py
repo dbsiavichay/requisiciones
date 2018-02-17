@@ -11,7 +11,7 @@ class Categoria(models.Model):
 	padre = models.ForeignKey('self', blank=True, null=True)
 
 	def __str__(self):		
-		return '%s / %s' % (str(self.padre), self.nombre) if self.padre else self.nombre
+		return '%s / %s' % (self.padre, self.nombre) if self.padre else self.nombre
 
 	def get_absolute_url(self):
 		return reverse_lazy('editar_categoria', args=[self.id])
