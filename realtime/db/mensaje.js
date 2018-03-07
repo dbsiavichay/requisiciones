@@ -1,5 +1,6 @@
+const conn = require('./conexion');
 const pg = require('pg');
-const connectionString = "postgres://postgres:081011@localhost:5432/requisicionesdb";
+const connectionString = 'postgres://'+conn.user+':'+conn.password+'@'+conn.host+':'+conn.port+'/requisicionesdb';
 const client = new pg.Client(connectionString);
 
 const create_sql = 'INSERT INTO node_mensaje (mensaje, receptor_id, remitente_id) VALUES ($1, $2, $3);';

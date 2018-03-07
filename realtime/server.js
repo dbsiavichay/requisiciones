@@ -4,8 +4,9 @@ var express = require('express'),
 var server = require('http').createServer(app)
 	io     = require('socket.io').listen(server);
 
+var conn = require('./db/conexion')
 var pg = require ('pg');
-var pgConString = "postgres://postgres:081011@localhost:5432/requisicionesdb"
+var pgConString = 'postgres://'+conn.user+':'+conn.password+'@'+conn.host+':'+conn.port+'/requisicionesdb';
 var client = new pg.Client(pgConString)
 client.connect()
 client.query("LISTEN addnotificacion");
