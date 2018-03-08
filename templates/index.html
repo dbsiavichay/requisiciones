@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        {% load staticfiles %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+
+        <title>Portal - Hidroabanico</title>
+
+        {% include 'base/css.html' %}
+
+        {% block css %}
+        {% endblock %}
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+        <section id="container" >
+            {% include 'index/header.html' %}
+            {% include 'index/sidebar.html' %}
+            
+            <!--main content start-->
+            <section id="main-content">
+                <section class="wrapper">
+                    <br>
+                    <div class="row">
+                        <div class="col-xs-8 col-xs-offset-2">
+                            {% include 'index/carousel.html' %}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="well well-lg">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <img src="{% static 'assets/img/article.jpeg' %}" alt="...">
+                            </div>
+                            <div class="col-sm-8">
+                                <h2>Ubicación del proyecto</h2>
+                                <h3>Hidroabanico</h3>
+                                <p>El Proyecto Hidroeléctrico Abanico está localizado en la región Sur Oriental del Ecuador, en la Provincia de Morona Santiago. La obra de toma de agua está localizada a 15 Km. de la ciudad de Macas.</p>
+                                <p>Es una central a filo de agua (sin reservorio) que utiliza una derivación del río Abanico para generar un total de 37.50 MW de energía limpia, en dos etapas: la primera de 15 MW y la segunda de 22.5 MW.</p>
+                            </div>
+                        </div>  
+                        
+                    </div>
+        		</section>
+            </section>
+            <!--main content end-->
+        </section>
+
+        {% include 'base/js.html' %}
+        {% block js %}
+        {% endblock %}
+    </body>
+</html>

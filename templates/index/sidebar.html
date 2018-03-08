@@ -1,0 +1,112 @@
+{% load static %}
+<!--sidebar start-->
+<aside>
+    <div id="sidebar"  class="nav-collapse">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+        	<p class="centered">
+                <a href="#">
+                    <img src="{% static 'assets/img/logo.jpg' %}" width="150">
+                </a>
+                
+            </p>        	
+            
+            <li class="mt sub-menu">
+                <a class="active" href="#" >
+                    <i class="fa fa-building"></i>
+                    <span>Hidroabanico</span>
+                </a>
+                <ul class="sub">
+                    <li>
+                        <a href="#">Historia</a>
+                    </li> 
+                    <li>
+                        <a href="#">Filosofía</a>
+                    </li>                   
+                </ul>
+            </li>
+
+            <li class="sub-menu">
+                <a href="#" >
+                    <i class="fa fa-building"></i>
+                    <span>Proyecto Hidroabanico</span>
+                </a>
+                <ul class="sub">
+                    <li>
+                        <a href="#">Descripción</a>
+                    </li> 
+                    <li>
+                        <a href="#">Ubicación</a>
+                    </li>
+                    <li>
+                        <a href="#">Diseño</a>
+                    </li>
+                    <li>
+                        <a href="#">Tabla técnica</a>
+                    </li>
+                    <li>
+                        <a href="#">Marco legal</a>
+                    </li>                   
+                </ul>
+            </li>
+
+            <li class="sub-menu">
+                <a href="#" >
+                    <i class="fa fa-building"></i>
+                    <span>Responsabilidad ambiental</span>
+                </a>
+                <ul class="sub">
+                    <li>
+                        <a href="#">Bosque protector abanico</a>
+                    </li> 
+                    <li>
+                        <a href="#">Estudo de impacto ambiental</a>
+                    </li>
+                    <li>
+                        <a href="#">Licencias ambientales</a>
+                    </li>
+                    <li>
+                        <a href="#">Protocolo de kioto y MDL</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="sub-menu">
+                <a href="#" >
+                    <i class="fa fa-building"></i>
+                    <span>Junto a la comunidad</span>
+                </a>
+                <ul class="sub">
+                    <li>
+                        <a href="#">Salud lo primero</a>
+                    </li> 
+                    <li>
+                        <a href="#">Educación construyendo</a>
+                    </li>
+                    <li>
+                        <a href="#">Recursos para el siglo XXI</a>
+                    </li>
+                    <li>
+                        <a href="#">Respaldo permanente</a>
+                    </li>
+                    <li>
+                        <a href="#">En contacto con el mundo</a>
+                    </li>
+                    <li>
+                        <a href="#">Relaciones comunitarias</a>
+                    </li>                   
+                </ul>
+            </li>
+
+            <li class="sub-menu">            
+                <a href="{% url 'home' %}">
+                    <i class="fa fa-sign-in"></i>
+                    <span>Sistema de requisiciones</span>
+                </a>
+            </li>
+            
+        </ul>
+        <!-- sidebar menu end-->
+    </div>
+</aside>
+<!--sidebar end-->
